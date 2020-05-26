@@ -85,6 +85,46 @@ function newDriver($conn, $data) {
 
 }
 
+//Checks if track is already in database. Returns trackID if exist, 0 if not
+function checkTrackExists($conn, $trackname) {
+  $sql = "SELECT trackname FROM tracks WHERE trackname=?";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+
+  mysqli_stmt_bind_param($stmt, "i", $trackname);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_array($result);
+  mysqli_stmt_free_result($stmt);
+  mysqli_stmt_close($stmt);
+
+  if (isset($row['id'])) {
+    return $row['id'];
+  }
+  return 0;
+}
+
+//Enters a new track into the database and returns the trackID.
+function newTrack($conn, $trackname) {
+  $sql = "INSERT INTO tracks (trackname) VALUES (?)";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+
+  mysqli_stmt_bind_param($stmt, "s", $trackname);
+  mysqli_stmt_execute($stmt);
+  $trackid = mysqli_stmt_insert_id($stmt);
+  mysqli_stmt_close($stmt);
+  return $trackid;
+}
+
 //Get intern ID of car
 function getCarID($conn, $iracing_car_id) {
   $sql = "SELECT * FROM cars WHERE iracing_car_id=?";
@@ -154,7 +194,10 @@ if (!isRace($input)) {
 $datetime = parseDate($eventInfo[0]);
 $leagueid = $leagueInfo[1];
 $seasonid = $leagueInfo[3];
-$trackid = 1;
+$trackid = checkTrackExists($conn, $eventInfo[1]);
+if($trackid == 0) {
+  $trackid = newTrack($conn, $evenInfo[1]);
+}
 
 //Prepare SQL and execute
 $sql = "INSERT INTO race_events (checksum, time_and_day, track_id, league_id, season_id) VALUES (?, ?, ?, ?, ?)";
