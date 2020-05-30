@@ -11,7 +11,7 @@ if(!isset($_POST['process-csv'])) {
 require 'dbh.inc.php';
 
 //Takes day and time straight out of the results csv and returns it in a MySQL compatible format.
-function parseDate($datetime) {
+function parseDate ($datetime) {
   //Get rid of the GMT
   $datetime = chop($datetime,"GMT");
   //Parse Date into usable array
@@ -21,7 +21,7 @@ function parseDate($datetime) {
 }
 
 //Checks the results table if the checksum is already in there. Returns true for a double, false for no double.
-function checkDoubles($conn, $checksum) {
+function checkDoubles ($conn, $checksum) {
   //Get field checksum from table events if the provided checksum matches
   $stmt = "SELECT checksum FROM race_events WHERE checksum=\"$checksum\"";
   $result = $conn->query($stmt);
@@ -35,7 +35,7 @@ function checkDoubles($conn, $checksum) {
 }
 
 //Checks if start position is zero, the it's a practice or quali session. Returns true if it's a race session, false otherwise.
-function isRace($data) {
+function isRace ($data) {
   foreach ($data as $key => $value) {
     $row = str_getcsv($value);
     if($row[8] == 0) {
@@ -47,7 +47,7 @@ function isRace($data) {
 }
 
 //Checks the drivers table if driver is already in the database
-function checkDriverExists($conn, $iracingid) {
+function checkDriverExists ($conn, $iracingid) {
   $sql = "SELECT iracing_name FROM drivers WHERE iracing_id=?";
   $stmt = mysqli_stmt_init($conn);
 
@@ -69,7 +69,7 @@ function checkDriverExists($conn, $iracingid) {
 }
 
 //Enters a new driver into the database.
-function newDriver($conn, $data) {
+function newDriver ($conn, $data) {
   $iracingid = $data[6];
   $name = $data[7];
 
@@ -97,6 +97,7 @@ function checkDriverInSeason ($conn, $driver_id, $season_id) {
   }
   mysqli_stmt_bind_param($stmt, "ii", $driver_id, $season_id);
   mysqli_stmt_execute($stmt);
+  mysqli_stmt_store_result($stmt);
   $rows = mysqli_stmt_num_rows($stmt);
   mysqli_stmt_close($stmt);
   if($rows > 0) {
@@ -119,7 +120,7 @@ function addDriverToSeason ($conn, $driver_id, $season_id, $car_id, $driver_clas
 }
 
 //Checks if track is already in database. Returns trackID if exist, 0 if not
-function checkTrackExists($conn, $trackname) {
+function checkTrackExists ($conn, $trackname) {
   $sql = "SELECT * FROM tracks WHERE trackname=?";
   $stmt = mysqli_stmt_init($conn);
 
@@ -142,7 +143,7 @@ function checkTrackExists($conn, $trackname) {
 }
 
 //Enters a new track into the database and returns the trackID.
-function newTrack($conn, $trackname) {
+function newTrack ($conn, $trackname) {
   $sql = "INSERT INTO tracks (trackname) VALUES (?)";
   $stmt = mysqli_stmt_init($conn);
 
@@ -159,7 +160,7 @@ function newTrack($conn, $trackname) {
 }
 
 //Get intern ID of car
-function getCarID($conn, $iracing_car_id) {
+function getCarID ($conn, $iracing_car_id) {
   $sql = "SELECT * FROM cars WHERE iracing_car_id=?";
   $stmt = mysqli_stmt_init($conn);
 
@@ -176,7 +177,7 @@ function getCarID($conn, $iracing_car_id) {
 }
 
 //Get intern ID of driver
-function getDriverID($conn, $iracing_id) {
+function getDriverID ($conn, $iracing_id) {
   $sql = "SELECT * FROM drivers WHERE iracing_id=?";
   $stmt = mysqli_stmt_init($conn);
 
@@ -208,7 +209,7 @@ function getInternalSeasonID ($conn, $season_id) {
 }
 
 //Returns the points system for the season and returns it as an array
-function getPointsArray($conn, $iracing_season_id) {
+function getPointsArray ($conn, $iracing_season_id) {
   $sql = "SELECT * FROM seasons WHERE iracing_season_id = ?";
   $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -218,8 +219,25 @@ function getPointsArray($conn, $iracing_season_id) {
   mysqli_stmt_bind_param($stmt, "i", $iracing_season_id);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
   $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
   return str_getcsv($rows[0]['points_system']);
+}
+
+//Identifies the correct round by season ID and track and returns the round ID
+function getRoundID ($conn, $season_id, $track_id) {
+  $sql = "SELECT * FROM rounds WHERE season_id = ? AND track_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "ii", $season_id, $track_id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  return $rows[0]['id'];
 }
 
 //Get the .csv file from the POST
@@ -258,7 +276,7 @@ $leagueid = $leagueInfo[1];
 $seasonid = getInternalSeasonID($conn, $leagueInfo[3]);
 $trackid = checkTrackExists($conn, $eventInfo[1]);
 $points = getPointsArray($conn, $leagueInfo[3]);
-$rounds_id = 1;
+$rounds_id = getRoundID($conn, $seasonid, $trackid);
 
 //If trackid is 0 it means that track does not exist. So enter new track into DB.
 if($trackid == 0) {
@@ -276,6 +294,21 @@ mysqli_stmt_bind_param($stmt, "ssiii", $checksum, $datetime, $trackid, $leagueid
 mysqli_stmt_execute($stmt);
 $eventid = mysqli_stmt_insert_id($stmt);
 mysqli_stmt_close($stmt);
+
+$sql = "UPDATE rounds SET event_id = ? WHERE id = ?";
+$stmt = mysqli_stmt_init($conn);
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+  header("Location: ../entercsv.php?error=sqlerror1");
+  exit();
+}
+mysqli_stmt_bind_param($stmt, "ii", $eventid, $rounds_id);
+if(mysqli_stmt_execute($stmt)) {
+  mysqli_stmt_close($stmt);
+} else {
+  echo mysqli_stmt_error($stmt)."<br>";
+  mysqli_stmt_close($stmt);
+  exit();
+}
 
 //Prepare and enter data into the race_results & champ_pts_transactions tables
 foreach ($input as $key => $value) {
@@ -337,6 +370,21 @@ foreach ($input as $key => $value) {
     exit();
   }
   mysqli_stmt_bind_param($stmt, "iiis", $driver_id, $rounds_id, $inc_value, $inc_reason);
+  if(mysqli_stmt_execute($stmt)) {
+    mysqli_stmt_close($stmt);
+  } else {
+    echo mysqli_stmt_error($stmt)."<br>";
+    mysqli_stmt_close($stmt);
+    exit();
+  }
+
+  $sql = "UPDATE season_driver_info SET driver_champ_pts = driver_champ_pts + ?, driver_inc_pts = driver_inc_pts + ? WHERE driver_id = ? AND season_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "iiii", $point_value, $inc_value, $driver_id, $seasonid);
   if(mysqli_stmt_execute($stmt)) {
     mysqli_stmt_close($stmt);
   } else {
