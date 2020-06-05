@@ -240,6 +240,26 @@ function getRoundID ($conn, $season_id, $track_id) {
   return $rows[0]['id'];
 }
 
+//Gets the minimum race distance a driver has to complete to get classified
+function getPercentRule ($conn, $leagueid) {
+  $sql = "SELECT * FROM seasons WHERE id=?";
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "i", $leagueid);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row =mysqli_fetch_array($result);
+  return $row['percent_rule'];
+}
+
+function minDistance ($data, $percent_rule) {
+  $temp = str_getcsv($data);
+  return $temp[18] / 100 * $percent_rule;
+}
+
 //Get the .csv file from the POST
 $input = file($_FILES['inputcsv']['tmp_name']);
 
@@ -274,9 +294,12 @@ if (!isRace($input)) {
 $datetime = parseDate($eventInfo[0]);
 $leagueid = $leagueInfo[1];
 $seasonid = getInternalSeasonID($conn, $leagueInfo[3]);
-$trackid = checkTrackExists($conn, $eventInfo[1]);
+$track = utf8_encode($eventInfo[1]);
+$trackid = checkTrackExists($conn, $track);
 $points = getPointsArray($conn, $leagueInfo[3]);
 $rounds_id = getRoundID($conn, $seasonid, $trackid);
+$percent_rule = getPercentRule($conn, $seasonid);
+$min_distance = minDistance($input[0], $percent_rule);
 
 //If trackid is 0 it means that track does not exist. So enter new track into DB.
 if($trackid == 0) {
@@ -348,21 +371,6 @@ foreach ($input as $key => $value) {
     exit();
   }
 
-  $sql = "INSERT INTO champ_pts_transactions (driver_id, rounds_id, pts_amount) VALUES (?,?,?)";
-  $stmt = mysqli_stmt_init($conn);
-  if(!mysqli_stmt_prepare($stmt, $sql)) {
-    header("Location: ../entercsv.php?error=sqlerror");
-    exit();
-  }
-  mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, $point_value);
-  if(mysqli_stmt_execute($stmt)) {
-    mysqli_stmt_close($stmt);
-  } else {
-    echo mysqli_stmt_error($stmt)."<br>";
-    mysqli_stmt_close($stmt);
-    exit();
-  }
-
   $sql = "INSERT INTO inc_transactions (driver_id, rounds_id, inc_amount, inc_reason) VALUES (?,?,?,?)";
   $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -378,13 +386,45 @@ foreach ($input as $key => $value) {
     exit();
   }
 
-  $sql = "UPDATE season_driver_info SET driver_champ_pts = driver_champ_pts + ?, driver_inc_pts = driver_inc_pts + ? WHERE driver_id = ? AND season_id = ?";
+  if ($laps_comp > $min_distance) {
+    $sql = "INSERT INTO champ_pts_transactions (driver_id, rounds_id, pts_amount) VALUES (?,?,?)";
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt, $sql)) {
+      header("Location: ../entercsv.php?error=sqlerror");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, $point_value);
+    if(mysqli_stmt_execute($stmt)) {
+      mysqli_stmt_close($stmt);
+    } else {
+      echo mysqli_stmt_error($stmt)."<br>";
+      mysqli_stmt_close($stmt);
+      exit();
+    }
+
+    $sql = "UPDATE season_driver_info SET driver_champ_pts = driver_champ_pts + ? WHERE driver_id = ? AND season_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt, $sql)) {
+      header("Location: ../entercsv.php?error=sqlerror");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt, "iii", $point_value, $driver_id, $seasonid);
+    if(mysqli_stmt_execute($stmt)) {
+      mysqli_stmt_close($stmt);
+    } else {
+      echo mysqli_stmt_error($stmt)."<br>";
+      mysqli_stmt_close($stmt);
+      exit();
+    }
+  }
+
+  $sql = "UPDATE season_driver_info SET driver_inc_pts = driver_inc_pts + ? WHERE driver_id = ? AND season_id = ?";
   $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)) {
     header("Location: ../entercsv.php?error=sqlerror");
     exit();
   }
-  mysqli_stmt_bind_param($stmt, "iiii", $point_value, $inc_value, $driver_id, $seasonid);
+  mysqli_stmt_bind_param($stmt, "iii", $inc_value, $driver_id, $seasonid);
   if(mysqli_stmt_execute($stmt)) {
     mysqli_stmt_close($stmt);
   } else {

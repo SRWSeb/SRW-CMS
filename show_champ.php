@@ -62,7 +62,7 @@ require 'includes/dbh.inc.php';
 
   ?>
 
-  <div class="container">
+  <div class="container-fluid">
     <form action="/SRW-CMS/show_champ.php" enctype="multipart/form-data" method="get">
       <div class="row">
         <div class="col-sm">
@@ -87,44 +87,52 @@ require 'includes/dbh.inc.php';
     <div class="row">
       <br>
     </div>
-    
+
     <?php if (isset($_GET['season'])): ?>
       <div class="row">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Car</th>
-              <?php for ($i = 0; $i < $season_driver_rows[0]['rounds']; $i++): ?>
-                <th scope="col">Round <?php echo $i+1; ?></th>
-              <?php endfor; ?>
-              <th scope="col">Championship Points</th>
-              <th scope="col">Incident Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($season_driver_rows as $key => $value):
-              $driver_rounds = getDriverTransactions($conn, $value['driver_id'], $value['season_id']);
-              ?>
+        <div class="jumbotron">
+          <table class="table">
+            <thead class="thead-dark">
               <tr>
-                <th scope="row"><?php echo $key+1; ?></th>
-                <td><?php echo $value['display_name']; ?></td>
-                <td><?php echo $value['car_name']; ?></td>
-                <?php for ($i = 0; $i < $value['rounds']; $i++): ?>
-                  <td><?php
-                  if (isset($driver_rounds[$i])) {
-                    echo $driver_rounds[$i]['pts_amount'];
-                  } else {
-                    echo "0";
-                  } ?></td>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Car</th>
+                <?php for ($i = 0; $i < $season_driver_rows[0]['rounds']; $i++): ?>
+                  <th scope="col">Round <?php echo $i+1; ?></th>
                 <?php endfor; ?>
-                <td><?php echo $value['driver_champ_pts']; ?></td>
-                <td><?php echo $value['driver_inc_pts']; ?></td>
+                <th scope="col">Championship Points</th>
+                <th scope="col">Incident Points</th>
               </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <?php foreach ($season_driver_rows as $key => $value):
+                $driver_rounds = getDriverTransactions($conn, $value['driver_id'], $value['season_id']);
+                ?>
+                <tr>
+                  <th scope="row"><?php echo $key+1; ?></th>
+                  <td><?php echo $value['display_name']; ?></td>
+                  <td><?php echo $value['car_name']; ?></td>
+                  <?php for ($i = 0; $i < $value['rounds']; $i++): ?>
+                    <td><?php
+                    if (isset($driver_rounds[0])) {
+                      if ($driver_rounds[0]['round_num'] == $i+1) {
+                        $current = array_shift($driver_rounds);
+                        echo $current['pts_amount'];
+                      } else {
+                        echo "0";
+                      }
+                    } else {
+                      echo "0";
+                    }
+                    ?></td>
+                  <?php endfor; ?>
+                  <td><?php echo $value['driver_champ_pts']; ?></td>
+                  <td><?php echo $value['driver_inc_pts']; ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     <?php endif; ?>
 
