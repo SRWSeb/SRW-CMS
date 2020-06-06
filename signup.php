@@ -1,25 +1,23 @@
 <?php
 require "header.php";
 
-$view = new UserViews();
+$view = new UserView();
+$userCtrl = new UserCtrl();
 ?>
 
-<div class="container">
+<div class="container mt-1">
   <div class="jumbotron">
     <?php
     if (!isset($_POST['username'])) {
-      $view->register();
-      $view->registerSuccess();
+        $view->register();
     } else {
-      $userCtrl = new UserCtrl();
-
       $username = $_POST['username'];
       $email = $_POST['email'];
       $pwd = $_POST['passwd'];
       $pwdrpt = $_POST['passwdrpt'];
 
-      echo $userCtrl->registerUser($username, $email, $pwd, $pwdrpt);
-      echo "<br> Registered successfully!<br>";
+      $userCtrl->registerUser($username, $email, $pwd, $pwdrpt);
+      $view->registerSuccess($username, $email);
     }
     ?>
   </div>

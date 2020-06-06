@@ -1,6 +1,7 @@
 <?php
-  include 'includes/autoloader.inc.php';
- ?>
+session_start();
+require_once 'includes/autoloader.inc.php';
+?>
 
 <!DOCTYPE html>
 <html>
@@ -27,15 +28,21 @@
           <a class="nav-item nav-link" href="entercsv.php">Add CSV</a>
         </div>
       </div>
-      <a href="signup.php" class="btn btn-outline-secondary">Signup</a>
-      <form class="form-inline my-2 my-lg-0" action="includes/login.inc.php" enctype="multipart/form-data" method="post">
-        <input class="form-control mr-sm-2" type="text" placeholder="Username" id="username" name="username" aria-label="Search">
-        <input class="form-control mr-sm-2" type="password" placeholder="Password" id="passwd" name="passwd" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-      </form>
-      <span class="navbar-text">
-        You are logged in!
-      </span>
+      <?php if (!isset($_SESSION['loggedin'])): ?>
+        <a href="signup.php" class="btn btn-outline-secondary">Signup</a>
+        <form class="form-inline my-2 my-lg-0" action="login.php" enctype="multipart/form-data" method="post">
+          <input class="form-control mr-sm-2" type="text" placeholder="Username" id="username" name="username" aria-label="Search">
+          <input class="form-control mr-sm-2" type="password" placeholder="Password" id="passwd" name="passwd" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+        </form>
+      <?php endif; ?>
+      <php <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']): ?>
+        <span class="navbar-text">
+          You are logged in, <?php echo $_SESSION['username']; ?>
+        </span>
+        <a href="logout.php" class="btn btn-primary">Logout</a>
+      <?php endif; ?>
+
     </nav>
 
   </header>
