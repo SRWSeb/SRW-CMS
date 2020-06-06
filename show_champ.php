@@ -62,7 +62,7 @@ require 'includes/dbh.inc.php';
 
   ?>
 
-  <div class="container-fluid">
+  <div class="container">
     <form action="/SRW-CMS/show_champ.php" enctype="multipart/form-data" method="get">
       <div class="row">
         <div class="col-sm">
