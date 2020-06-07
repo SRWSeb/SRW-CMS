@@ -47,8 +47,10 @@ class UserView {
 
     public function loginSuccess() {
       $view =
-      '<div class="row justify-content-center text-center">
-        <div class="col">Login successfull!</div>
+      '<div class="jumbotron">
+        <div class="row justify-content-center text-center">
+          <div class="col">Login successfull!</div>
+        </div>
       </div>';
 
       echo $view;
@@ -56,8 +58,10 @@ class UserView {
 
     public function loginFail() {
       $view =
-      '<div class="row justify-content-center text-center">
-        <div class="col">Wrong username or password.</div>
+      '<div class="jumbotron">
+        <div class="row justify-content-center text-center">
+          <div class="col">Wrong username or password.</div>
+        </div>
       </div>';
 
       echo $view;
@@ -65,8 +69,10 @@ class UserView {
 
     public function loggedOut() {
       $view =
-      '<div class="row justify-content-center text-center">
-        <div class="col">You are now logged out.</div>
+      '<div class="jumbotron">
+        <div class="row justify-content-center text-center">
+          <div class="col">You are now logged out.</div>
+        </div>
       </div>';
 
       echo $view;
