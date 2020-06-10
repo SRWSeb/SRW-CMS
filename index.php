@@ -8,8 +8,6 @@ $view = new UserView();
   if(isset($_GET['action'])) {
     if ($_GET['action'] == "logout") {
       $view->loggedOut();
-    } elseif ($_GET['action'] == "credentials") {
-      $view->loginFail();
     } elseif ($_GET['action'] == "loginFailed") {
       $view->loginFail();
     } elseif ($_GET['action'] == "loginSuccess") {

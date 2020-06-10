@@ -16,8 +16,8 @@ if($_GET['action'] == "logout") {
 }
 
 if($_GET['action'] == "login") {
-  if($_POST['username'] == "" || $_POST['passwd'] == "") {
-    header("Location: ../index.php?action=credentials");
+  if(empty($_POST['username']) || empty($_POST['passwd'])) {
+    header("Location: ../index.php?action=loginFailed");
     exit();
   }
   if($userCtrl->loginUser($_POST['username'], $_POST['passwd'])) {
@@ -27,5 +27,6 @@ if($_GET['action'] == "login") {
     header("Location: ../index.php?action=loginFailed");
     exit();
   }
-
 }
+header("Location: ../index.php");
+exit();

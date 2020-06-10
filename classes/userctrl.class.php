@@ -7,8 +7,12 @@ class UserCtrl {
     $pwdhash = password_hash($pwd, PASSWORD_DEFAULT);
 
     $user = new User();
-    $id = $user->createUser($username, $email, $pwdhash);
-    return true;
+    $row = $user->getUserbyName($username);
+    if(empty($row)) {
+      $id = $user->createUser($username, $email, $pwdhash);
+      return true;
+    }
+    return false;
   }
 
   public function loginUser($username, $pwd) {
