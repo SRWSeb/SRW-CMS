@@ -8,7 +8,7 @@ require_once 'includes/autoloader.inc.php';
 <head>
   <meta charset="utf-8">
   <meta name="description" content="Simracersworld Championship Management System for iRacing">
-  <meta name=viewport content="width=device-width, initial scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Simracersworld Championship Management System</title>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -17,6 +17,9 @@ require_once 'includes/autoloader.inc.php';
 </head>
 <body>
   <header>
+    <div class="bg-light">
+      <img src="media/CMS_dark.png" class="img-fluid" alt="SRW CMS Logo" style="width:15%;height:15%">
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="index.php">SRW</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +27,7 @@ require_once 'includes/autoloader.inc.php';
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="show_champ.php">Home</a>
+          <a class="nav-item nav-link" href="standings.php">Standings</a>
           <a class="nav-item nav-link" href="entercsv.php">Add CSV</a>
         </div>
       </div>

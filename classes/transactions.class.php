@@ -1,6 +1,7 @@
 <?php
 
 class Transactions extends Dbc {
+  
   public function getPtsTransactionsForSeason ($seasonID, $driverID) {
     $sql = "SELECT champ_pts_transactions.*, rounds.* FROM champ_pts_transactions
     JOIN rounds ON champ_pts_transactions.rounds_id = rounds.id

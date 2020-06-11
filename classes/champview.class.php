@@ -2,6 +2,31 @@
 
 class ChampView {
 
+  public function leagueSelect($leagueArray) {
+    $seasons = "";
+
+    foreach ($leagueArray as $key => $value) {
+      $seasons .= '<option value="'.$key.'">'.$value.'</option>';
+    }
+
+    $view='<div class="jumbotron">
+      <form action="/SRW-CMS/standings.php" enctype="multipart/form-data" method="get">
+        <div class="row">
+          <div class="col-sm">
+            <select id="seasons" name="season" class="form-control">'.
+            $seasons.
+            '</select>
+          </div>
+          <div class="col-sm">
+            <input type="submit" value="Get_Standings" name="standings" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>';
+
+    echo $view;
+  }
+
   public function buildChampTable($rounds, $standings) {
     $roundsView = "";
     $standingsView = "";
@@ -51,31 +76,3 @@ class ChampView {
   }
 
 }
-
-/*<tbody>
-  <?php foreach ($season_driver_rows as $key => $value):
-    $driver_rounds = getDriverTransactions($conn, $value['driver_id'], $value['season_id']);
-    ?>
-    <tr>
-      <th scope="row"><?php echo $key+1; ?></th>
-      <td><?php echo $value['display_name']; ?></td>
-      <td><?php echo $value['car_name']; ?></td>
-      <?php for ($i = 0; $i < $value['rounds']; $i++): ?>
-        <td><?php
-        if (isset($driver_rounds[0])) {
-          if ($driver_rounds[0]['round_num'] == $i+1) {
-            $current = array_shift($driver_rounds);
-            echo $current['pts_amount'];
-          } else {
-            echo "0";
-          }
-        } else {
-          echo "0";
-        }
-        ?></td>
-      <?php endfor; ?>
-      <td><?php echo $value['driver_champ_pts']; ?></td>
-      <td><?php echo $value['driver_inc_pts']; ?></td>
-    </tr>
-  <?php endforeach; ?>
-</tbody>*/

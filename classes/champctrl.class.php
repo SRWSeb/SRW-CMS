@@ -1,6 +1,19 @@
 <?php
 
 class ChampCtrl {
+  public function buildLeaguesArray() {
+    $league = new League();
+    $leagueSeasons = $league->getLeagueSeasons();
+
+    $leagueArray = array();
+    $i = 0;
+
+    foreach ($leagueSeasons as $key => $value) {
+      $leagueArray[$value['season_id']] = $value['league_name'].' '.$value['season_name'];
+      $i++;
+    }
+    return $leagueArray;
+  }
 
   public function buildDriverStandings($seasonID) {
     $season = new Season();
