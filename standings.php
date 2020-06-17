@@ -1,12 +1,10 @@
 <?php
 require "header.php";
-require 'includes/dbh.inc.php';
 ?>
 <main>
   <div class="container-fluid">
     <?php
     $champCtrl = new ChampCtrl();
-    $season = new Season();
     $champView = new ChampView();
 
     $leagueArray = $champCtrl->buildLeaguesArray();
@@ -15,7 +13,7 @@ require 'includes/dbh.inc.php';
 
     if(isset($_GET['season'])) {
 
-      $seasonInfo = $season->getSeasonInfo($_GET['season']);
+      $seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
       $standings = $champCtrl->buildDriverStandings($_GET['season']);
 
       function standings_sort($a, $b) {
@@ -24,7 +22,7 @@ require 'includes/dbh.inc.php';
       }
       usort($standings, "standings_sort");
 
-      $champView->buildChampTable($seasonInfo[0]['rounds'], $standings);
+      $champView->buildChampTable($seasonInfo['rounds'], $standings);
     }
 
     ?>

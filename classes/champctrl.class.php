@@ -1,6 +1,7 @@
 <?php
 
 class ChampCtrl {
+
   public function buildLeaguesArray() {
     $league = new League();
     $leagueSeasons = $league->getLeagueSeasons();
@@ -15,13 +16,19 @@ class ChampCtrl {
     return $leagueArray;
   }
 
+  public function getSeasonInfo($seasonID) {
+    $season = new Season();
+    $season->seasonbyID($seasonID);
+    return $season->getSeasonInfo();
+  }
+
   public function buildDriverStandings($seasonID) {
     $season = new Season();
-
-    $seasonInfo = $season->getSeasonInfo($seasonID);
-    $rounds = $seasonInfo[0]['rounds'];
-    $drop_scores = $seasonInfo[0]['drop_scores'];
-    $seasonDriverInfo = $season->getSeasonDriverInfo($seasonID);
+    $season->seasonbyID($seasonID);
+    $seasonInfo = $season->getSeasonInfo();
+    $rounds = $seasonInfo['rounds'];
+    $drop_scores = $seasonInfo['drop_scores'];
+    $seasonDriverInfo = $season->getSeasonDriverInfo();
 
     $driverStandings = array();
 
