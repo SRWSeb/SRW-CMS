@@ -25,6 +25,7 @@ class UserCtrl {
     } else {
       $_SESSION['loggedin'] = true;
       $_SESSION['username'] = $username;
+      $_SESSION['userlevel'] = $userdata[0]['userlevel'];
       return true;
     }
   }

@@ -11,6 +11,7 @@ if(!isset($_GET['action'])) {
 if($_GET['action'] == "logout") {
   unset($_SESSION['loggedin']);
   unset($_SESSION['name']);
+  unset($_SESSION['userlevel']);
   header("Location: ../index.php?action=logout");
   exit();
 }

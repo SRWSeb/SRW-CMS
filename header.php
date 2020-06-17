@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/autoloader.inc.php';
+$navView = new NavView();
 ?>
 
 <!DOCTYPE html>
@@ -20,32 +21,11 @@ require_once 'includes/autoloader.inc.php';
     <div class="bg-light">
       <img src="media/CMS_dark.png" class="img-fluid" alt="SRW CMS Logo" style="width:15%;height:15%">
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="index.php">SRW</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="standings.php">Standings</a>
-          <a class="nav-item nav-link" href="entercsv.php">Add CSV</a>
-        </div>
-      </div>
-      <?php if (!isset($_SESSION['loggedin'])): ?>
-        <a href="signup.php" class="btn btn-outline-secondary mr-2">Signup</a>
-        <form class="form-inline my-2 my-lg-0" action="includes/loginout.inc.php?action=login" enctype="multipart/form-data" method="post">
-          <input class="form-control mr-sm-2" type="text" placeholder="Username" id="username" name="username" aria-label="Search">
-          <input class="form-control mr-sm-2" type="password" placeholder="Password" id="passwd" name="passwd" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-        </form>
-      <?php endif; ?>
-      <php <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']): ?>
-        <span class="navbar-text">
-          You are logged in, <?php echo $_SESSION['username']; ?>
-        </span>
-        <a href="includes/loginout.inc.php?action=logout" class="btn btn-primary">Logout</a>
-      <?php endif; ?>
 
-    </nav>
+    <?php
+
+    $navView->showNav();
+
+     ?>
 
   </header>
