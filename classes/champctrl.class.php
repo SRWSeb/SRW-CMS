@@ -64,7 +64,8 @@ class ChampCtrl {
   }
 
   public function buildDriverTransactions($seasonID, $driverID) {
-
+    $incTransactions = new Transactions();
+    return $incTransactions->getIncTransactionsForSeason($seasonID, $driverID);
   }
 
 

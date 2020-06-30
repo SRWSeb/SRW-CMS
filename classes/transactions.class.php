@@ -17,8 +17,9 @@ class Transactions extends Dbc {
   }
 
   public function getIncTransactionsForSeason($seasonID, $driverID) {
-    $sql = "SELECT inc_transactions.*, rounds.* FROM inc_transactions
+    $sql = "SELECT inc_transactions.*, rounds.*, tracks.* FROM inc_transactions
     JOIN rounds ON inc_transactions.rounds_id = rounds.id
+    JOIN tracks ON rounds.track_id = tracks.id
     WHERE season_id = ? AND driver_id = ? ORDER BY round_num ASC";
 
     $this->connect();

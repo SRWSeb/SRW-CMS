@@ -75,4 +75,40 @@ class ChampView {
     echo $view;
   }
 
+  public function buildDriverSite($transactions) {
+    $tablehead = '<div class="jumbotron">
+    <h1>Driver Name</h1>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Round</th>
+          <th scope="col">Track</th>
+          <th scope="col">Inc</th>
+          <th scope="col">Reason</th>
+        </tr>
+      </thead>
+      <tbody>';
+    $tablecontent = '';
+    $tablefoot = '</tbody>
+    </table>
+    </div>';
+
+    foreach ($transactions as $key => $value) {
+      $tablecontent .= '<tr>';
+      $tablecontent .= '<th scope="row">'.$value['round_num'].'</th>';
+      $tablecontent .= '<td>'.$value['trackname'].'</td>';
+      $tablecontent .= '<td>'.$value['inc_amount'].'</td>';
+
+      if ($value['inc_reason'] != NULL) {
+        $tablecontent .= '<td>'.$value['inc_reason'].'</td>';
+      } elseif ($value['inc_comment'] != NULL) {
+        $tablecontent .= '<td>'.$value['inc_comment'].'</td>';
+      }
+    }
+
+    $view = $tablehead . $tablecontent . $tablefoot;
+
+    echo $view;
+  }
+
 }
