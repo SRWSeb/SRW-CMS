@@ -22,7 +22,7 @@ require "header.php";
       }
       usort($standings, "standings_sort");
 
-      $champView->buildChampTable($seasonInfo['rounds'], $standings);
+      $champView->buildChampTable($seasonInfo, $standings);
     }
 
     ?>

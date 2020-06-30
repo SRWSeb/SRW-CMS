@@ -34,6 +34,7 @@ class ChampCtrl {
 
     foreach ($seasonDriverInfo as $key => $value) {
       $driverStandings[$key]['name'] = $value['display_name'];
+      $driverStandings[$key]['driverID'] = $value['driver_id'];
       $driverStandings[$key]['class'] = $value['driver_class'];
       $driverStandings[$key]['car'] = $value['car_name'];
       $driverStandings[$key]['total_inc'] = $value['driver_inc_pts'];
@@ -60,6 +61,10 @@ class ChampCtrl {
     }
 
     return $driverStandings;
+  }
+
+  public function buildDriverTransactions($seasonID, $driverID) {
+
   }
 
 
