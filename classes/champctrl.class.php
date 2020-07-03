@@ -37,26 +37,35 @@ class ChampCtrl {
       $driverStandings[$key]['driverID'] = $value['driver_id'];
       $driverStandings[$key]['class'] = $value['driver_class'];
       $driverStandings[$key]['car'] = $value['car_name'];
-      $driverStandings[$key]['total_inc'] = $value['driver_inc_pts'];
+      $driverStandings[$key]['total_inc'] = 0;
       $driverStandings[$key]['total_pts'] = 0;
 
       $transactions = new Transactions();
-      $rounds_transactions = $transactions->getPtsTransactionsForSeason($seasonID, $value['driver_id']);
+      $rounds_pts_transactions = $transactions->getPtsTransactionsForSeason($seasonID, $value['driver_id']);
+      $rounds_inc_transactions = $transactions->getIncTransactionsForSeason($seasonID, $value['driver_id']);
 
+      //Sum up all Championship points accrued
       for ($i=1; $i <= $rounds ; $i++) {
         $round = 'Round '.$i;
 
-        if (!isset($rounds_transactions[0])) {
+        if (!isset($rounds_pts_transactions[0])) {
           $driverStandings[$key][$round] = 0;
         } else {
-          if ($rounds_transactions[0]['round_num'] == $i) {
-            $driverStandings[$key][$round] = $rounds_transactions[0]['pts_amount'];
-            $driverStandings[$key]['total_pts'] += $rounds_transactions[0]['pts_amount'];
-            array_shift($rounds_transactions);
+          if ($rounds_pts_transactions[0]['round_num'] == $i) {
+            $driverStandings[$key][$round] = $rounds_pts_transactions[0]['pts_amount'];
+            $driverStandings[$key]['total_pts'] += $rounds_pts_transactions[0]['pts_amount'];
+            array_shift($rounds_pts_transactions);
           } else {
             $driverStandings[$key][$round] = 0;
           }
         }
+
+
+      }
+
+      //Sum up all Incidents accrued
+      foreach ($rounds_inc_transactions as $inc_key => $inc_value) {
+        $driverStandings[$key]['total_inc'] += $inc_value['inc_amount'];
       }
     }
 

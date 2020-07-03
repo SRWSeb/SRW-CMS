@@ -46,8 +46,15 @@ class ChampView {
         for ($i=1; $i <= $seasonInfo['rounds'] ; $i++) {
           $standingsView .= '<td>'.$value['Round '.$i].'</td>';
         }
-
-        $standingsView .= '<td>'.$value['total_inc'].'</td>';
+        if ($value['total_inc'] < 40) {
+          $standingsView .= '<td style="background-color:#33cc33">'.$value['total_inc'].'</td>';
+        } elseif ($value['total_inc'] >= 40 && $value['total_inc'] < 50) {
+          $standingsView .= '<td style="background-color:#ff9900">'.$value['total_inc'].'</td>';
+        } elseif ($value['total_inc'] >= 50 && $value['total_inc'] < 60) {
+          $standingsView .= '<td style="background-color:#cc6600">'.$value['total_inc'].'</td>';
+        } else {
+          $standingsView .= '<td style="background-color:#ff0000">'.$value['total_inc'].'</td>';
+        }
         $standingsView .= '<td>'.$value['total_pts'].'</td>';
         $standingsView .= '</tr>';
         $position++;
@@ -62,8 +69,8 @@ class ChampView {
             <th scope="col">Class</th>
             <th scope="col">Car</th>'
             .$roundsView.
-            '<th scope="col">Championship Points</th>
-            <th scope="col">Incident Points</th>
+            '<th scope="col">Incident Points</th>
+            <th scope="col">Championship Points</th>
           </tr>
         </thead>
         <tbody>'
