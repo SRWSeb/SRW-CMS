@@ -36,7 +36,7 @@ class ChampView {
     echo $view;
   }
 
-  public function buildChampTable($seasonInfo, $standings) {
+  public function buildChampTable($seasonInfo, $standings, $classes) {
     $roundsView = "";
     $standingsView = "";
     $position = 1;
@@ -49,7 +49,11 @@ class ChampView {
         $standingsView .= '<tr>';
         $standingsView .= '<th scope="row">'.$position.'</th>';
         $standingsView .= '<td><a href="driverinfo.php?id='.$value['driverID'].'&season='.$seasonInfo['id'].'">'.$value['name'].'</td>';
-        $standingsView .= '<td>'.$value['class'].'</td>';
+        foreach ($classes as $classkey => $classvalue) {
+          if ($value['class'] == $classvalue['id']) {
+            $standingsView .= '<td>'.$classvalue['class_name'].'</td>';
+          }
+        }
         $standingsView .= '<td>'.$value['car'].'</td>';
 
         for ($i=1; $i <= $seasonInfo['rounds'] ; $i++) {

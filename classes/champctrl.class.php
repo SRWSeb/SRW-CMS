@@ -17,6 +17,16 @@ class ChampCtrl {
     return $leagueArray;
   }
 
+  public static function getCars($seasonID) {
+    $season = new Season();
+    return $season->getCarsForSeason($seasonID);
+  }
+
+  public static function getClasses() {
+    $season = new Season();
+    return $season->getClasses();
+  }
+
   public function getSeasonInfo($seasonID) {
     $season = new Season();
     $season->seasonbyID($seasonID);

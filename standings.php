@@ -8,6 +8,7 @@ require "header.php";
     $champView = new ChampView();
 
     $leagueArray = ChampCtrl::buildLeaguesArray();
+    $classes = ChampCtrl::getClasses();
 
     $champView->leagueSelect($leagueArray);
 
@@ -22,7 +23,7 @@ require "header.php";
       }
       usort($standings, "standings_sort");
 
-      $champView->buildChampTable($seasonInfo, $standings);
+      $champView->buildChampTable($seasonInfo, $standings, $classes);
     }
 
     ?>

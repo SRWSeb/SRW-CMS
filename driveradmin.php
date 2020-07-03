@@ -9,16 +9,20 @@ $champCtrl = new ChampCtrl();
   <?php
     $leagueArray = ChampCtrl::buildLeaguesArray();
     $view->leagueSelect($leagueArray);
+    $classes = ChampCtrl::getClasses();
 
     if (isset($_GET['season']) && !isset($_GET['edit'])) {
+
       $driverArray = $champCtrl->getSeasonDrivers($_GET['season']);
-      $view->buildDriverList($driverArray);
+      $view->buildDriverList($driverArray, $classes);
+
     } elseif (isset($_GET['edit'])) {
+
       $driverCtrl = new DriverCtrl();
+      $cars = ChampCtrl::getCars($_GET['season']);
       $driverInfo = $driverCtrl->getDriverSeasonInfos($_GET['edit'], $_GET['season']);
-      var_export($driverInfo[0]);
-      echo "<br>";
-      $view->buildDriverEdit($driverInfo[0]);
+      $view->buildDriverEdit($driverInfo[0], $cars, $classes, $_GET['season']);
+
     }
   ?>
 
