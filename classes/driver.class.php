@@ -12,4 +12,14 @@ class Driver extends Dbc {
     return $results;
   }
 
+  public function getDriver($driverID) {
+    $sql = "SELECT * FROM drivers WHERE id = ?";
+    $this->connect();
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$driverID]);
+
+    $result = $stmt->fetchAll();
+    return $result;
+  }
+
 }

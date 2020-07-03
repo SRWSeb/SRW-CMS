@@ -7,8 +7,9 @@ require "header.php";
     <?php
       $champCtrl = new ChampCtrl();
       $champView = new ChampView();
+      $driverName = DriverCtrl::getDriverNamebyID($_GET['id']);
       $incTransactions = $champCtrl->buildDriverTransactions($_GET['season'], $_GET['id']);
-      $champView->buildDriverSite($incTransactions);
+      $champView->buildDriverSite($incTransactions, $driverName);
     ?>
   </div>
 </main>

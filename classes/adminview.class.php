@@ -27,13 +27,34 @@ class AdminView {
             '</select>
           </div>
           <div class="col-sm">
-            <input type="submit" value="Get Standings" name="standings" class="btn btn-primary">
+            <input type="submit" value="Get Drivers" class="btn btn-primary">
           </div>
         </div>
       </form>
     </div>';
 
     echo $view;
+  }
+
+  public function buildDriverEdit($driverArray) {
+    $tablehead = '<div class="jumbotron">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">iRacing Name</th>
+          <th scope="col">Display Name</th>
+          <th scope="col">Selected Car</th>
+          <th scope="col">Class</th>
+        </tr>
+      </thead>
+      <tbody>';
+      $tablecontent = '';
+      $tablefoot = '</tbody>
+      </table>
+      </div>';
+
+      $view = $tablehead . $tablecontent . $tablefoot;
+      echo $view;
   }
 
 }

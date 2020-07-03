@@ -27,7 +27,7 @@ class ChampView {
             '</select>
           </div>
           <div class="col-sm">
-            <input type="submit" value="Get Standings" name="standings" class="btn btn-primary">
+            <input type="submit" value="Get Standings" class="btn btn-primary">
           </div>
         </div>
       </form>
@@ -91,9 +91,9 @@ class ChampView {
     echo $view;
   }
 
-  public function buildDriverSite($transactions) {
+  public function buildDriverSite($transactions, $name) {
     $tablehead = '<div class="jumbotron">
-    <h1>Driver Name</h1>
+    <h1>'.$name.'</h1>
     <table class="table">
       <thead class="thead-dark">
         <tr>

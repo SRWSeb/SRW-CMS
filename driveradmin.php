@@ -10,7 +10,8 @@ $view = new AdminView();
     $view->leagueSelect($leagueArray);
 
     if (isset($_GET['season'])) {
-      echo "Blurp";
+      $driverArray = array();
+      $view->buildDriverEdit($driverArray);
     }
   ?>
 
