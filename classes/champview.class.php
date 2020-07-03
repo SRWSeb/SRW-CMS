@@ -120,6 +120,7 @@ class ChampView {
       } elseif ($value['inc_comment'] != NULL) {
         $tablecontent .= '<td>'.$value['inc_comment'].'</td>';
       }
+      $tablecontent .= '</tr>';
     }
 
     $view = $tablehead . $tablecontent . $tablefoot;

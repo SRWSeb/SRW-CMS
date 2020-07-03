@@ -13,4 +13,9 @@ class DriverCtrl {
     return $driver->getAllDrivers();
   }
 
+  public function getDriverSeasonInfos($driverID, $seasonID) {
+    $driver = new Driver();
+    return $driver->getDriverSeasonInfos($driverID, $seasonID);
+  }
+
 }

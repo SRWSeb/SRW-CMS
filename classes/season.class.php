@@ -11,7 +11,7 @@ class Season extends Dbc {
       $stmt->execute([$seasonID]);
       $resultSeasonInfo = $stmt->fetchAll();
 
-      $sql = "SELECT season_driver_info.*, drivers.display_name, cars.car_name FROM season_driver_info
+      $sql = "SELECT season_driver_info.*, drivers.*, cars.car_name FROM season_driver_info
       JOIN drivers ON season_driver_info.driver_id = drivers.id
       JOIN cars ON season_driver_info.selected_car_id = cars.id
       WHERE season_id = ?";
@@ -37,8 +37,5 @@ class Season extends Dbc {
     public function getSeasonInfo() {
       return $this->seasonInfo;
     }
-
-
-
 
 }

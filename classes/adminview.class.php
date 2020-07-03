@@ -36,25 +36,46 @@ class AdminView {
     echo $view;
   }
 
-  public function buildDriverEdit($driverArray) {
+  public function buildDriverList($driverArray) {
     $tablehead = '<div class="jumbotron">
     <table class="table">
       <thead class="thead-dark">
         <tr>
           <th scope="col">iRacing Name</th>
           <th scope="col">Display Name</th>
-          <th scope="col">Selected Car</th>
+          <th scope="col">Car</th>
           <th scope="col">Class</th>
+          <th scope="col">Active Driver</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>';
-      $tablecontent = '';
-      $tablefoot = '</tbody>
-      </table>
-      </div>';
+    $tablecontent = '';
+    $tablefoot = '</tbody>
+    </table>
+    </div>';
 
-      $view = $tablehead . $tablecontent . $tablefoot;
-      echo $view;
+    foreach ($driverArray as $key => $value) {
+      $tablecontent .= '<tr>';
+      $tablecontent .= '<td>'.$value['iracing_name'].'</td>';
+      $tablecontent .= '<td>'.$value['display_name'].'</td>';
+      $tablecontent .= '<td>'.$value['car_name'].'</td>';
+      $tablecontent .= '<td>'.$value['driver_class'].'</td>';
+      $tablecontent .= '<td>';
+      if ($value['active'] == 1) {
+        $tablecontent .= 'Yes';
+      } else {
+        $tablecontent .= 'No';
+      }
+      $tablecontent .= '</td>';
+      $tablecontent .= '<td><a class="btn btn-secondary" href="driveradmin.php?season='.$value['season_id'].'&edit='.$value['driver_id'].'" role="button">Edit</a>';
+      $tablecontent .= '</tr>';
+
+    }
+
+    $view = $tablehead . $tablecontent . $tablefoot;
+
+    echo $view;
   }
 
 }

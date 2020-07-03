@@ -78,5 +78,11 @@ class ChampCtrl {
     return $incTransactions->getIncTransactionsForSeason($seasonID, $driverID);
   }
 
+  public function getSeasonDrivers($seasonID) {
+    $season = new Season();
+    $season->seasonbyID($seasonID);
+    return $season->getSeasonDriverInfo();
+  }
+
 
 }
