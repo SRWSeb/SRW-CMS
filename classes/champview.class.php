@@ -3,11 +3,20 @@
 class ChampView {
 
   public function leagueSelect($leagueArray) {
-    $seasons = "";
-
+    $seasons = '<optgroup label="Active Series">';
     foreach ($leagueArray as $key => $value) {
-      $seasons .= '<option value="'.$key.'">'.$value.'</option>';
+      if ($value['active'] == 1) {
+        $seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+      }
     }
+    $seasons .= '</optgroup>';
+    $seasons .= '<optgroup label="Past Series">';
+    foreach ($leagueArray as $key => $value) {
+      if ($value['active'] == 0) {
+        $seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+      }
+    }
+    $seasons .= '</optgroup>';
 
     $view='<div class="jumbotron">
       <form action="/SRW-CMS/standings.php" enctype="multipart/form-data" method="get">
@@ -18,7 +27,7 @@ class ChampView {
             '</select>
           </div>
           <div class="col-sm">
-            <input type="submit" value="Get_Standings" name="standings" class="btn btn-primary">
+            <input type="submit" value="Get Standings" name="standings" class="btn btn-primary">
           </div>
         </div>
       </form>

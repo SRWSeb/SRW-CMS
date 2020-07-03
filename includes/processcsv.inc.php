@@ -71,7 +71,7 @@ function checkDriverExists ($conn, $iracingid) {
 //Enters a new driver into the database.
 function newDriver ($conn, $data) {
   $iracingid = $data[6];
-  $name = $data[7];
+  $name = utf8_encode($data[7]);
 
   $sql = "INSERT INTO drivers (iracing_id, iracing_name, display_name) VALUES (?, ?, ?)";
   $stmt = mysqli_stmt_init($conn);
@@ -401,38 +401,7 @@ foreach ($input as $key => $value) {
       mysqli_stmt_close($stmt);
       exit();
     }
-
-    $sql = "UPDATE season_driver_info SET driver_champ_pts = driver_champ_pts + ? WHERE driver_id = ? AND season_id = ?";
-    $stmt = mysqli_stmt_init($conn);
-    if(!mysqli_stmt_prepare($stmt, $sql)) {
-      header("Location: ../entercsv.php?error=sqlerror");
-      exit();
-    }
-    mysqli_stmt_bind_param($stmt, "iii", $point_value, $driver_id, $seasonid);
-    if(mysqli_stmt_execute($stmt)) {
-      mysqli_stmt_close($stmt);
-    } else {
-      echo mysqli_stmt_error($stmt)."<br>";
-      mysqli_stmt_close($stmt);
-      exit();
-    }
   }
-
-  $sql = "UPDATE season_driver_info SET driver_inc_pts = driver_inc_pts + ? WHERE driver_id = ? AND season_id = ?";
-  $stmt = mysqli_stmt_init($conn);
-  if(!mysqli_stmt_prepare($stmt, $sql)) {
-    header("Location: ../entercsv.php?error=sqlerror");
-    exit();
-  }
-  mysqli_stmt_bind_param($stmt, "iii", $inc_value, $driver_id, $seasonid);
-  if(mysqli_stmt_execute($stmt)) {
-    mysqli_stmt_close($stmt);
-  } else {
-    echo mysqli_stmt_error($stmt)."<br>";
-    mysqli_stmt_close($stmt);
-    exit();
-  }
-
 }
 
 //Send back with success flag and event ID

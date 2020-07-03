@@ -2,15 +2,16 @@
 
 class ChampCtrl {
 
-  public function buildLeaguesArray() {
+  public static function buildLeaguesArray() {
     $league = new League();
     $leagueSeasons = $league->getLeagueSeasons();
 
     $leagueArray = array();
     $i = 0;
-
     foreach ($leagueSeasons as $key => $value) {
-      $leagueArray[$value['season_id']] = $value['league_name'].' '.$value['season_name'];
+      $leagueArray[$i]['id'] = $value['season_id'];
+      $leagueArray[$i]['name'] = $value['league_name'].' '.$value['season_name'];
+      $leagueArray[$i]['active'] = $value['active'];
       $i++;
     }
     return $leagueArray;

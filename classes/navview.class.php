@@ -19,7 +19,7 @@ class NavView {
       </div>';
 
       if (!isset($_SESSION['loggedin'])) {
-        $view .= '<a href="signup.php" class="btn btn-outline-secondary mr-2">Signup</a>
+        $view .= '<!--<a href="signup.php" class="btn btn-outline-secondary mr-2">Signup</a>-->
         <form class="form-inline my-2 my-lg-0" action="includes/loginout.inc.php?action=login" enctype="multipart/form-data" method="post">
           <input class="form-control mr-sm-2" type="text" placeholder="Username" id="username" name="username" aria-label="Search">
           <input class="form-control mr-sm-2" type="password" placeholder="Password" id="passwd" name="passwd" aria-label="Search">

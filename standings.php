@@ -7,7 +7,7 @@ require "header.php";
     $champCtrl = new ChampCtrl();
     $champView = new ChampView();
 
-    $leagueArray = $champCtrl->buildLeaguesArray();
+    $leagueArray = ChampCtrl::buildLeaguesArray();
 
     $champView->leagueSelect($leagueArray);
 
