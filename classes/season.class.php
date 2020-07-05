@@ -3,6 +3,7 @@
 class Season extends Dbc {
   private $seasonInfo = array();
   private $seasonDriverInfo = array();
+  private $seasonRounds = array();
 
     public function getCarsForSeason($seasonID) {
       $sql = "SELECT seasons.carclass_id, carclass_cars.*, cars.car_name FROM seasons
@@ -71,12 +72,21 @@ class Season extends Dbc {
       $stmt->execute([$seasonID]);
       $resultSeasonDriverInfo = $stmt->fetchAll();
 
+      $sql = "SELECT rounds.*, tracks.trackname FROM rounds
+              JOIN tracks ON rounds.track_id = tracks.id
+              WHERE season_id = ? ORDER BY round_num";
+      $this->connect();
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([$seasonID]);
+      $resultSeasonRounds = $stmt->fetchAll();
+
       if (empty($resultSeasonInfo) || empty($resultSeasonDriverInfo)) {
         return false;
       }
 
       $this->seasonInfo = $resultSeasonInfo[0];
       $this->seasonDriverInfo = $resultSeasonDriverInfo;
+      $this->seasonRounds = $resultSeasonRounds;
 
       return true;
     }
@@ -87,6 +97,10 @@ class Season extends Dbc {
 
     public function getSeasonInfo() {
       return $this->seasonInfo;
+    }
+
+    public function getSeasonRounds() {
+      return $this->seasonRounds;
     }
 
 }

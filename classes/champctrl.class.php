@@ -33,6 +33,12 @@ class ChampCtrl {
     return $season->getSeasonInfo();
   }
 
+  public function getSeasonRounds($seasonID) {
+    $season = new Season();
+    $season->seasonbyID($seasonID);
+    return $season->getSeasonRounds();
+  }
+
   public function buildDriverStandings($seasonID) {
     $season = new Season();
     $season->seasonbyID($seasonID);
@@ -61,6 +67,7 @@ class ChampCtrl {
         $driverStandings[$key][$round] = 0;
       }
 
+      //Enter the points amounts for each round and add them to the total
       foreach ($rounds_pts_transactions as $pts_key => $pts_value) {
         $round = 'Round ' . $pts_value['round_num'];
         $driverStandings[$key][$round] += $pts_value['pts_amount'];
