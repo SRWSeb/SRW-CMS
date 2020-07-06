@@ -10,11 +10,13 @@ class NavView {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="standings.php">Standings</a>';
+          <a class="nav-item nav-link" href="standings.php">Standings</a>
+          <a class="nav-item nav-link" href="protestvote.php">Protest Voting</a>';
 
       if (isset($_SESSION['userlevel']) && $_SESSION['userlevel'] == 1) {
           $view .= '<a class="nav-item nav-link" href="entercsv.php">Add CSV</a>';
           $view .= '<a class="nav-item nav-link" href="driveradmin.php">Driver Admin</a>';
+          $view .= '<a class="nav-item nav-link" href="protestenter.php">Enter Protest</a>';
       }
       $view .= '</div>
       </div>';

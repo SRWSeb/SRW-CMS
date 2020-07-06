@@ -8,8 +8,18 @@ class Protest extends Dbc {
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$datalist['seasonID'], $datalist['roundID'], $datalist['issuedBy'], $datalist['protestedDriver'], $datalist['lap'], $datalist['location'], $datalist['ytembed'], $datalist['description']]);
 
-    return true;
+    return $this->conn->lastInsertId();
   }
 
+  public function getProtest($protestID) {
+    $sql = 'SELECT * FROM protest WHERE id = ?';
+
+    $this->connect();
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$protestID]);
+    $result = $stmt->fetchAll();
+
+    return $result;
+  }
 
 }

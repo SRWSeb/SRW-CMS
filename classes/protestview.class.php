@@ -29,6 +29,28 @@ class ProtestView {
     echo $view;
   }
 
+  public function protestSaved() {
+    $view = '<div class="row border border-success rounded bg-success text-white">';
+    $view .= '<div class="col"';
+    $view .= '<h5>Protest entered successfully!</h5>';
+    $view .= '</div>';
+    $view .= '</div>';
+
+    echo $view;
+  }
+
+  public function enterToken() {
+    $view = '<div class="jumbotron justify-content-center">';
+    $view .= '<form action="protestvote.php" enctype="multipart/form-data" method="get">';
+    $view .= '<label for="token">Please enter your protest token:</label>';
+    $view .= '<input type="text" class="form-control" name="token" id="token">';
+    $view .= '<button type="submit" class="btn btn-secondary">Submit</button>';
+    $view .= '</form>';
+    $view .= '</div>';
+
+    echo $view;
+  }
+
   public function enterProtest($seasonID, $driverlist, $roundslist) {
     $datalist = '<datalist id="drivers">';
     foreach ($driverlist as $key => $value) {
@@ -97,6 +119,60 @@ class ProtestView {
     $view .= '<label for"description">Description:</label>';
     $view .= '<textarea class="form-control" name="description" id="description">';
     $view .= '</textarea>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '<button type="submit" class="btn btn-secondary">Submit</button>';
+    $view .= '</form>';
+
+    echo $view;
+  }
+
+  public function protestVote($protest) {
+    $view = '<div class="row">';
+    $view .= '<div class="col">';
+    $view .= '<h1>Simracersworld GT PRO series</h1>';
+    $view .= '<h2>'.$protest['round'].'<h2>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '<div class="row">';
+    $view .= '<div class="col d-flex justify-content-center">';
+    $view .= $protest['ytembed'];
+    $view .= '</div>';
+    $view .= '<div class="col">';
+    $view .= '<h4>Issued by: </h4><p>'.$protest['issuedByName'].'</p>';
+    $view .= '<h4>Protested Driver: </h4><p>'.$protest['protestedDriverName'].'</p>';
+    $view .= '<h4>Lap: </h4><p>'.$protest['lap'].'</p>';
+    $view .= '<h4>Location: </h4><p>'.$protest['location'].'</p>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '<div class="row">';
+    $view .= '<div class="col">';
+    $view .= '<h4>Description given by driver:</h4>';
+    $view .= '<p>'.$protest['description'].'<p>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '<form>';
+    $view .= '<div class="row">';
+    $view .= '<fieldset class="form-group">';
+    $view .= '<legend class="col">Verdict:</legend>';
+    $view .= '<div class="col">';
+    $view .= '<div class="form-check">';
+    $view .= '<input class="form-check-input" type="radio" name="verdict" id="guilty" value="1">';
+    $view .= '<label class="form-check-label" for="guilty">Guilty</label>';
+    $view .= '</div>';
+    $view .= '<div class="form-check">';
+    $view .= '<input class="form-check-input" type="radio" name="verdict" id="nguilty" value="0">';
+    $view .= '<label class="form-check-label" for="nguilty">Not guilty</label>';
+    $view .= '</div>';
+    $view .= '</div>';
+    $view .= '</fieldset>';
+    $view .= '</div>';
+    $view .= '<div class="row">';
+    $view .= '<div class="col">';
+    $view .= '<div class="form-group">';
+    $view .= '<label for="reasoning">Comment:</label>';
+    $view .= '<textarea class="form-control" id="reasoning" rows="5"></textarea>';
     $view .= '</div>';
     $view .= '</div>';
     $view .= '</div>';

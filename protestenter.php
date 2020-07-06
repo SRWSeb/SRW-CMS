@@ -13,6 +13,10 @@ $view = new ProtestView();
 
   } else {
 
+    if(isset($_GET['protest']) && $_GET['protest'] == 'success') {
+      $view->protestSaved();
+    }
+
     $champCtrl = new ChampCtrl();
     $driverlist = $champCtrl->getSeasonDrivers($_GET['season']);
     $roundslist = $champCtrl->getSeasonRounds($_GET['season']);

@@ -6,9 +6,8 @@ if(!isset($_POST['issuedBy']) || !isset($_POST['protestedDriver']) || !isset($_P
   exit();
 }
 
-
-var_export($_POST);
-
 $protestCtrl = new ProtestCtrl();
 $protestCtrl->setNewProtest($_GET['season'], $_POST);
 $protestCtrl->saveProtest();
+
+header("Location: ../protestenter.php?protest=success&season=".$_GET['season']);
