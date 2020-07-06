@@ -13,7 +13,7 @@ class ProtestView {
 
 
     $view = '<h1>Select Season</h1>
-      <form action="/SRW-CMS/protestenter.php" enctype="multipart/form-data" method="get">
+      <form action="protestenter.php" enctype="multipart/form-data" method="get">
         <div class="row">
           <div class="col-sm">
             <select id="seasons" name="season" class="form-control">'.
@@ -29,20 +29,20 @@ class ProtestView {
     echo $view;
   }
 
-  public function enterProtest($season, $driverlist, $roundslist) {
+  public function enterProtest($seasonID, $driverlist, $roundslist) {
     $datalist = '<datalist id="drivers">';
     foreach ($driverlist as $key => $value) {
-      $datalist .= '<option>'.$value['display_name'].'</option>';
+      $datalist .= '<option value="'.$value['id'].'">'.$value['display_name'].'</option>';
     }
     $datalist .= '</datalist>';
 
     $tracklist = '';
     foreach ($roundslist as $key => $value) {
-      $tracklist .= '<option>Round '.$value['round_num'].' - '.$value['trackname'].'</option>';
+      $tracklist .= '<option value="'.$value['id'].'">Round '.$value['round_num'].' - '.$value['trackname'].'</option>';
     }
 
     $view = $datalist;
-    $view .= '<form>';
+    $view .= '<form action="includes/protestenter.inc.php?season='.$seasonID.'" enctype="multipart/form-data" method="post">';
     $view .= '<div class="row">';
     $view .= '<div class="col">';
     $view .= '<h1>Protest Entry:</h1>';
