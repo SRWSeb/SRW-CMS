@@ -1,6 +1,21 @@
 <?php
   require "header.php";
   require 'includes/dbh.inc.php';
+
+  $sql = "SELECT leagues_seasons.*, seasons.season_name, leagues.league_name  FROM leagues_seasons
+  JOIN seasons ON leagues_seasons.season_id = seasons.id
+  JOIN leagues ON leagues_seasons.league_id = leagues.id";
+  $stmt = mysqli_stmt_init($conn);
+  if(mysqli_stmt_prepare($stmt, $sql)) {
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_stmt_close($stmt);
+  } else {
+    echo mysqli_stmt_error($stmt)."<br>";
+    mysqli_stmt_close($stmt);
+    exit();
+  }
  ?>
 
  <main>
@@ -8,6 +23,16 @@
      <div class="row">
        <div class="col-12">
        <form action="includes/processcsv.inc.php" enctype="multipart/form-data" method="post">
+         <select id="leagues" name="leagues" class="form-control">
+           <?php foreach ($rows as $key => $value): ?>
+             <option value="<?php echo $value['league_id'];?>"><?php echo $value['league_name']; ?></option>
+           <?php endforeach; ?>
+         </select>
+         <select id="seasons" name="seasons" class="form-control">
+            <?php foreach ($rows as $key => $value): ?>
+              <option value="<?php echo $value['season_id']; ?>"><?php echo $value['season_name']; ?></option>
+            <?php endforeach; ?>
+         </select>
          <div class="custom-file mb-12">
            <input type="file" id="inputcsv" name="inputcsv" class="custom-file-input">
            <label class="custom-file-label" for="inputcsv">Select your results file:</label>
