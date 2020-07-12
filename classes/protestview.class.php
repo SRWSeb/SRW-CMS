@@ -41,7 +41,7 @@ class ProtestView {
 
   public function enterToken() {
     $view = '<div class="jumbotron justify-content-center">';
-    $view .= '<form action="protestvote.php" enctype="multipart/form-data" method="get">';
+    $view .= '<form action="protest.php" enctype="multipart/form-data" method="get">';
     $view .= '<label for="token">Please enter your protest token:</label>';
     $view .= '<input type="text" class="form-control" name="token" id="token">';
     $view .= '<button type="submit" class="btn btn-secondary">Submit</button>';

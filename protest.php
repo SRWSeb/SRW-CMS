@@ -8,8 +8,12 @@ $view = new ProtestView();
 
   if(!isset($_GET['token'])) {
     $view->enterToken();
-  } elseif ($_GET['token'] == 'asd') {
+  } else {
     $protestCtrl = new ProtestCtrl();
+
+    //$testprotest = $protestCtrl->getProtestsforToken($_GET['token']);
+
+
     $protestID = 5;
     $seasonID = 3;
 
