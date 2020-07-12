@@ -19,7 +19,7 @@ class ChampView {
     $seasons .= '</optgroup>';
 
     $view='<div class="jumbotron">
-      <form action="/SRW-CMS/standings.php" enctype="multipart/form-data" method="get">
+      <form action="standings.php" enctype="multipart/form-data" method="get">
         <div class="row">
           <div class="col-sm">
             <select id="seasons" name="season" class="form-control">'.
