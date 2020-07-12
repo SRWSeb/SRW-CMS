@@ -11,6 +11,22 @@ class ProtestCtrl {
   private $ytembed;
   private $description;
 
+  public static function getPublishedProtests() {
+    $protest = new Protest();
+    $protests = $protest->getAllProtests();
+
+    $result = array();
+    $i = 0;
+    foreach ($protests as $key => $value) {
+      if($value['published'] == 1) {
+        $result[$i] = $value;
+        $i++;
+      }
+    }
+
+    return $result;
+  }
+
   public function setNewProtest($seasonID, $formData) {
     $this->seasonID = $seasonID;
     $this->roundID = $formData['round'];

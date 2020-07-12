@@ -42,10 +42,46 @@ class ProtestView {
   public function enterToken() {
     $view = '<div class="jumbotron justify-content-center">';
     $view .= '<form action="protest.php" enctype="multipart/form-data" method="get">';
-    $view .= '<label for="token">Please enter your protest token:</label>';
+    $view .= '<label for="token">To review protests, please enter your protest token:</label>';
     $view .= '<input type="text" class="form-control" name="token" id="token">';
     $view .= '<button type="submit" class="btn btn-secondary">Submit</button>';
     $view .= '</form>';
+    $view .= '</div>';
+
+    echo $view;
+  }
+
+  public function displayProtests($protests) {
+
+    $tablehead = '<table class="table">
+          <tr>
+            <th scope="row">#</th>
+            <th scope="row">Protested Driver</th>
+            <th scope="row">Reason</th>
+            <th scope="row">Evidence</th>
+            <th scope="row">Status</th>
+            <th scope="row">Penalty</th>
+          </tr>';
+    $tablefoot = '</table>';
+
+    $view = '<div class="row">';
+    $view .= $tablehead;
+      foreach ($protests as $key => $value) {
+        $view .= '<tr>';
+        $view .= '<th scope="row">Round '.$value['round_num'].'</th>';
+        $view .= '<td>'.$value['display_name'].'</td>';
+        $view .= '<td>'.$value['reason'].'</td>';
+        $view .= '<td><a href="'.$value['yt_direct'].'" target="_blank">Video</a></td>';
+        if($value['guilty'] == 1) {
+          $view .= '<td>Upheld</td>';
+          $view .= '<td>+10x</td>';
+        } else {
+          $view .= '<td>Dismissed</td>';
+          $view .= '<td>-</td>';
+        }
+        $view .= '</tr>';
+      }
+    $view .= $tablefoot;
     $view .= '</div>';
 
     echo $view;

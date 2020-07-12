@@ -22,4 +22,17 @@ class Protest extends Dbc {
     return $result;
   }
 
+  public function getAllProtests() {
+    $sql = 'SELECT protest.*, drivers.display_name, rounds.round_num FROM protest
+            JOIN drivers ON drivers.id = protest.protested_driver
+            JOIN rounds ON rounds.id = protest.round_id';
+
+    $this->connect();
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([]);
+    $result = $stmt->fetchAll();
+
+    return $result;
+  }
+
 }

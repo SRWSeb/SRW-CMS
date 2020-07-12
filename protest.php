@@ -4,15 +4,16 @@ $view = new ProtestView();
 ?>
 
 <div class="container">
+
   <?php
 
   if(!isset($_GET['token'])) {
+    $protests = ProtestCtrl::getPublishedProtests();
+
+    $view->displayProtests($protests);
     $view->enterToken();
   } else {
     $protestCtrl = new ProtestCtrl();
-
-    //$testprotest = $protestCtrl->getProtestsforToken($_GET['token']);
-
 
     $protestID = 5;
     $seasonID = 3;
@@ -24,6 +25,7 @@ $view = new ProtestView();
   }
 
   ?>
+
 </div>
 
 
