@@ -8,7 +8,7 @@ class ProtestCtrl {
   private $protestedDriver;
   private $lap;
   private $location;
-  private $ytembed;
+  private $youtube;
   private $description;
 
   public static function getPublishedProtests() {
@@ -34,7 +34,7 @@ class ProtestCtrl {
     $this->protestedDriver = $formData['protestedDriver'];
     $this->lap = $formData['lap'];
     $this->location = $formData['location'];
-    $this->ytembed = $formData['ytembed'];
+    $this->youtube = $formData['youtube'];
     $this->description = $formData['description'];
 
     return true;
@@ -49,7 +49,7 @@ class ProtestCtrl {
     $protestData['protestedDriver'] = $this->protestedDriver;
     $protestData['lap'] = $this->lap;
     $protestData['location'] = $this->location;
-    $protestData['ytembed'] = $this->ytembed;
+    $protestData['youtube'] = $this->youtube;
     $protestData['description'] = $this->description;
 
     $protest = new Protest();
@@ -69,7 +69,7 @@ class ProtestCtrl {
     $this->protestedDriver = $protestData[0]['protested_driver'];
     $this->lap = $protestData[0]['lap'];
     $this->location = $protestData[0]['location'];
-    $this->ytembed = $protestData[0]['yt_embed'];
+    $this->youtube = $protestData[0]['yt_embed'];
     $this->description = $protestData[0]['description'];
 
     return true;
@@ -102,7 +102,7 @@ class ProtestCtrl {
     $protestData['protestedDriverName'] = $protestedDriverName;
     $protestData['lap'] = $this->lap;
     $protestData['location'] = $this->location;
-    $protestData['ytembed'] = $this->ytembed;
+    $protestData['youtube'] = $this->youtube;
     $protestData['description'] = $this->description;
 
     return $protestData;

@@ -11,7 +11,7 @@ $view = new ProtestView();
     $protests = ProtestCtrl::getPublishedProtests();
 
     $view->displayProtests($protests);
-    $view->enterToken();
+    //$view->enterToken();
   } else {
     $protestCtrl = new ProtestCtrl();
 

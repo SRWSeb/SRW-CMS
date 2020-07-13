@@ -141,8 +141,8 @@ class ProtestView {
     $view .= '<div class="row">';
     $view .= '<div class="col">';
     $view .= '<div class="form-group">';
-    $view .= '<label for"ytembed">Youtube Embed Link:</label>';
-    $view .= '<textarea class="form-control" name="ytembed" id="ytembed">';
+    $view .= '<label for"Youtube">Youtube Link:</label>';
+    $view .= '<textarea class="form-control" name="youtube" id="Youtube">';
     $view .= '</textarea>';
     $view .= '</div>';
     $view .= '</div>';
