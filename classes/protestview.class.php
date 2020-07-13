@@ -57,7 +57,6 @@ class ProtestView {
           <tr>
             <th scope="row">#</th>
             <th scope="row">Protested Driver</th>
-            <th scope="row">Reason</th>
             <th scope="row">Evidence</th>
             <th scope="row">Status</th>
             <th scope="row">Penalty</th>
@@ -70,7 +69,6 @@ class ProtestView {
         $view .= '<tr>';
         $view .= '<th scope="row">Round '.$value['round_num'].'</th>';
         $view .= '<td>'.$value['display_name'].'</td>';
-        $view .= '<td>'.$value['reason'].'</td>';
         $view .= '<td><a href="'.$value['yt_direct'].'" target="_blank">Video</a></td>';
         if($value['guilty'] == 1) {
           $view .= '<td>Upheld</td>';
