@@ -401,6 +401,22 @@ foreach ($input as $key => $value) {
       mysqli_stmt_close($stmt);
       exit();
     }
+    if ($inc_value == 0) {
+      $sql = "INSERT INTO champ_pts_transactions (driver_id, rounds_id, pts_amount) VALUES (?,?,?)";
+      $stmt = mysqli_stmt_init($conn);
+      if(!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: ../entercsv.php?error=sqlerror");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, 5);
+      if(mysqli_stmt_execute($stmt)) {
+        mysqli_stmt_close($stmt);
+      } else {
+        echo mysqli_stmt_error($stmt)."<br>";
+        mysqli_stmt_close($stmt);
+        exit();
+      }
+    }
   }
 }
 
