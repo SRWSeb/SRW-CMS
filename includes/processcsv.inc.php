@@ -354,6 +354,7 @@ foreach ($input as $key => $value) {
   $race_inc = $line[19];
   $point_value = $points[$race_pos-1];
   $inc_value = $line[19];
+  $bonus_pts = 5;
   $inc_reason = "Incident points from race.";
 
   $sql = "INSERT INTO race_results (event_id, driver_id, car_id, carclass_id, start_pos, race_pos, laps_comp, race_fastest_lap, race_fastest_lap_num, race_average_lap, race_inc) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -408,7 +409,7 @@ foreach ($input as $key => $value) {
         header("Location: ../entercsv.php?error=sqlerror");
         exit();
       }
-      mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, 5);
+      mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, $bonus_pts);
       if(mysqli_stmt_execute($stmt)) {
         mysqli_stmt_close($stmt);
       } else {
