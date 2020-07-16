@@ -1,1 +1,4 @@
 test.php
+includes/autoloader.inc.php
+includes/dbh.inc.php
+classes/dbc.class.php
