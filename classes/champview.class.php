@@ -46,6 +46,7 @@ class ChampView {
     }
 
     foreach ($standings as $key => $value) {
+      if($value['active'] > 0){
         $standingsView .= '<tr>';
         $standingsView .= '<th scope="row">'.$position.'</th>';
         $standingsView .= '<td><a href="driverinfo.php?id='.$value['driverID'].'&season='.$seasonInfo['id'].'">'.$value['name'].'</td>';
@@ -71,6 +72,7 @@ class ChampView {
         $standingsView .= '<td>'.$value['total_pts'].'</td>';
         $standingsView .= '</tr>';
         $position++;
+      }
     }
 
     $view = '<div class="jumbotron">

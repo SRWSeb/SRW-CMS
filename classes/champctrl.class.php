@@ -56,6 +56,7 @@ class ChampCtrl {
       $driverStandings[$key]['car'] = $value['car_name'];
       $driverStandings[$key]['total_inc'] = 0;
       $driverStandings[$key]['total_pts'] = 0;
+      $driverStandings[$key]['active'] = $value['active'];
 
       $transactions = new Transactions();
       $rounds_pts_transactions = $transactions->getPtsTransactionsForSeason($seasonID, $value['driver_id']);
