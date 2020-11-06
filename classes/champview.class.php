@@ -76,7 +76,6 @@ class ChampView {
       }
       if ($value['active'] == 2) {
         array_push($dq, $standings[$key]);
-        var_dump($dq);
       }
     }
 
