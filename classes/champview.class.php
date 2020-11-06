@@ -65,7 +65,7 @@ class ChampView {
           $standingsView .= '<td style="background-color:#33cc33">'.$value['total_inc'].'</td>';
         } elseif ($value['total_inc'] >= 40 && $value['total_inc'] < 50) {
           $standingsView .= '<td style="background-color:#ff9900">'.$value['total_inc'].'</td>';
-        } elseif ($value['total_inc'] >= 50 && $value['total_inc'] < 60) {
+        } elseif ($value['total_inc'] >= 50 && $value['total_inc'] <= 60) {
           $standingsView .= '<td style="background-color:#cc6600">'.$value['total_inc'].'</td>';
         } else {
           $standingsView .= '<td style="background-color:#ff0000">'.$value['total_inc'].'</td>';
@@ -97,7 +97,7 @@ class ChampView {
         $standingsView .= '<td style="background-color:#33cc33">'.$value['total_inc'].'</td>';
       } elseif ($value['total_inc'] >= 40 && $value['total_inc'] < 50) {
         $standingsView .= '<td style="background-color:#ff9900">'.$value['total_inc'].'</td>';
-      } elseif ($value['total_inc'] >= 50 && $value['total_inc'] < 60) {
+      } elseif ($value['total_inc'] >= 50 && $value['total_inc'] <= 60) {
         $standingsView .= '<td style="background-color:#cc6600">'.$value['total_inc'].'</td>';
       } else {
         $standingsView .= '<td style="background-color:#ff0000">'.$value['total_inc'].'</td>';
