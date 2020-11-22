@@ -1,5 +1,4 @@
 <?php
-  require __DIR__ . '\vendor\autoload.php';
   spl_autoload_register('autoLoader');
 
   function autoLoader($className) {

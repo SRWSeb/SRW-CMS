@@ -16,6 +16,7 @@ require "header.php";
 
       $seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
       $standings = $champCtrl->buildDriverStandings($_GET['season']);
+      $rounds = array( "rounds" => array());
 
       function standings_sort($a, $b) {
         if($a["total_pts"] == $b["total_pts"]) return 0;
@@ -23,7 +24,14 @@ require "header.php";
       }
       usort($standings, "standings_sort");
 
-      $champView->buildChampTable($seasonInfo, $standings, $classes);
+      for ($i=1; $i <= $seasonInfo['rounds']; $i++) {
+        $round = 'Round '. $i;
+        array_push($rounds['rounds'], $round);
+      }
+
+      //$champView->buildChampTable($seasonInfo, $standings, $classes);
+      echo $m->render('standings', $rounds);
+
     }
 
     ?>
