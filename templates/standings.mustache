@@ -1,4 +1,5 @@
 <div class="jumbotron">
+  <h1>{{ season.league_name }} {{ season.season_name }}</h1>
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -13,5 +14,40 @@
         <th scope="col">Championship Points</th>
       </tr>
     </thead>
+    <tbody>
+
+      {{# standings }}
+        <tr>
+          <th scope="row"> {{ position }} </th>
+          <td><a href="driverinfo.php?id={{ driverID }}&season={{ season.season_id }}"> {{ name }}</a> </td>
+          <td> {{ class }} </td>
+          <td> {{ car }} </td>
+
+          {{# rounds }}
+            <td> {{ . }} </td>
+          {{/ rounds}}
+
+          <td style="background-color:{{ inc_color }}"> {{ total_inc }} </td>
+          <td> {{ total_pts }} </td>
+        </tr>
+      {{/ standings }}
+
+      {{# disqualified }}
+        <tr>
+          <th scope="row" style="background-color:#ff0000"> DQ </th>
+          <td><a href="driverinfo.php?id={{ driverID }}&season={{ season.season_id }}"> {{ name }}</a> </td>
+          <td> {{ class }} </td>
+          <td> {{ car }} </td>
+
+          {{# rounds }}
+            <td> {{ . }} </td>
+          {{/ rounds}}
+
+          <td style="background-color:{{ inc_color }}"> {{ total_inc }} </td>
+          <td> {{ total_pts }} </td>
+        </tr>
+      {{/ disqualified }}
+
+    </tbody>
   </table>
 </div>

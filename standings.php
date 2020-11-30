@@ -28,9 +28,9 @@ require "header.php";
         $round = 'Round '. $i;
         array_push($rounds['rounds'], $round);
       }
-
-      //$champView->buildChampTable($seasonInfo, $standings, $classes);
-      echo $m->render('standings', $rounds);
+      
+      $champView->buildChampTable($seasonInfo, $standings, $classes);
+      //echo $m->render('standings', $rounds);
 
     }
 

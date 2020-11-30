@@ -63,6 +63,13 @@ class Season extends Dbc {
       $stmt->execute([$seasonID]);
       $resultSeasonInfo = $stmt->fetchAll();
 
+      $sql = "SELECT leagues_seasons.*, leagues.league_name FROM leagues_seasons
+      JOIN leagues ON leagues_seasons.league_id = leagues.id WHERE season_id = ?";
+      $this->connect();
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([$seasonID]);
+      $resultLeagueInfo = $stmt->fetchAll();
+
       $sql = "SELECT season_driver_info.*, drivers.*, cars.car_name FROM season_driver_info
       JOIN drivers ON season_driver_info.driver_id = drivers.id
       JOIN cars ON season_driver_info.selected_car_id = cars.id
@@ -85,6 +92,7 @@ class Season extends Dbc {
       }
 
       $this->seasonInfo = $resultSeasonInfo[0];
+      $this->seasonInfo['league_name'] = $resultLeagueInfo[0]['league_name'];
       $this->seasonDriverInfo = $resultSeasonDriverInfo;
       $this->seasonRounds = $resultSeasonRounds;
 
