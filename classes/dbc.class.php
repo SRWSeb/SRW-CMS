@@ -1,10 +1,10 @@
 <?php
 
 class Dbc {
-  private $host = "localhost";
-  private $user = "root";
-  private $pwd = "root";
-  private $dbname = "srw_champ";
+  private $host = "";
+  private $user = "";
+  private $pwd = "";
+  private $dbname = "";
   
   protected $conn = NULL;
 
