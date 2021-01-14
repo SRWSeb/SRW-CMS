@@ -1,7 +1,7 @@
 <?php
   require "header.php";
 
-  class Standings {
+  /*class Standings {
     public $season = array();
     public $rounds = array();
     public $standings = array();
@@ -10,9 +10,9 @@
     public function __construct() {
 
       $args = func_get_args();
-      var_export($args);
 
-      /*for ($i=1; $i <= $seasonInfo['rounds']; $i++) {
+
+      for ($i=1; $i <= $seasonInfo['rounds']; $i++) {
         $round = 'Round '. $i;
         array_push($this->rounds, $round);
       }
@@ -31,7 +31,7 @@
         'league_name' => $seasonInfo['league_name'],
         'season_id' => $seasonInfo['id'],
         'season_name' => $seasonInfo['season_name']
-      );*/
+      );
 
     }
 
@@ -59,13 +59,10 @@
     }
 
 
-  }
+  }*/
 
-
-  $champCtrl = new ChampCtrl();
-  $seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
-  $s = new Standings($seasonInfo);
-  $s->loadSeason(3);
+  $s = new Standings();
+  $s->loadStandings(2);
 
   echo $m->render('standings', $s);
 
