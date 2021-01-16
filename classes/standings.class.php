@@ -11,6 +11,14 @@ class Standings {
     return ($a["total_pts"] < $b["total_pts"])?1:-1;
   }
 
+  private static function does_key_exist($array, $key) {
+    foreach ($array as $key => $value) {
+      if($value['round'] == $key)
+        return false;
+    }
+    return true;
+  }
+
   public function loadStandings($seasonID) {
     //Load relevant Season
     $s = new Season();
@@ -45,16 +53,18 @@ class Standings {
         $inc_transactions = $t->getIncTransactionsForSeason($seasonID, $this->standings[$key]['driverID']);
 
         //build array for each round
-        for ($i=1; $i <= $this->season['rounds'] ; $i++) {
-          $round = 'Round '.$i;
-          $this->standings[$key]['rounds'][$i-1] = 0;
+        for ($i=0; $i < $this->season['rounds'] ; $i++) {
+          $round = $i;
+          $this->standings[$key]['rounds'][$round] = array();
+          $this->standings[$key]['rounds'][$round]['pts'] = 0;
+          $this->standings[$key]['rounds'][$round]['text-color'] = 'black';
         }
 
         //Populate each round and total points
         foreach ($pts_transactions as $pts_key => $pts_value) {
-          $round = 'Round '.$pts_value['round_num'];
+          $round = $pts_value['round_num'] - 1;
 
-          $this->standings[$key]['rounds'][$pts_value['round_num']-1] += $pts_value['pts_amount'];
+          $this->standings[$key]['rounds'][$round]['pts'] += $pts_value['pts_amount'];
           $this->standings[$key]['total_pts'] += $pts_value['pts_amount'];
         }
 
@@ -83,6 +93,7 @@ class Standings {
         for ($i=1; $i <= $this->season['rounds'] ; $i++) {
           $round = 'Round '.$i;
           $this->disqualified[$key]['rounds'][$i-1] = 0;
+
         }
 
         //Populate each round and total points
@@ -99,7 +110,21 @@ class Standings {
         }
       }
 
-      //If the championship has drop_scores, find out how many, identify them and subtract them from the overall score
+      //If the championship has drop scores, find out how many, identify them and subtract them from the overall score
+      $numdropscores = $this->season['drop_scores'];
+      $roundscompleted = 12;
+      $scores = array();
+
+      for ($i=0; $i < $roundscompleted; $i++) {
+        $scores[$i] = $this->standings[$key]['rounds'][$i]['pts'];
+      }
+
+      sort($scores, SORT_NUMERIC);
+
+      for ($i=0; $i < $numdropscores; $i++) {
+        $this->standings[$key]['total_pts'] -= $scores[$i];
+      }
+
     }
 
     //Sort driverStandings by total points
