@@ -8,7 +8,7 @@ class ChampView {
     foreach ($leagueArray as $key => $value) {
       if ($value['active'] == 1) {
         //$seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
-        $view .= '<a href="standings.php?season='.$value['id'].'"><img class="img-fluid" style="max-width: 40%" src="media/'.$value['logo'].'"></a>';
+        $view .= '<a href="standings.php?season='.$value['id'].'"><img class="img-fluid" src="media/'.$value['logo'].'"></a>';
       }
     }
     //$seasons .= '</optgroup>';
