@@ -3,15 +3,14 @@
 class ChampView {
 
   public function leagueSelect($leagueArray) {
-    $view='<div class="jumbotron">';
-    //$seasons = '<optgroup label="Active Series">';
+    $view='<div class="container"><div class="jumbotron text-center">';
+    $view .= '<h1>Current series</h1>';
     foreach ($leagueArray as $key => $value) {
       if ($value['active'] == 1) {
-        //$seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
-        $view .= '<a href="standings.php?season='.$value['id'].'"><img class="img-fluid" src="media/'.$value['logo'].'"></a>';
+        $view .= '<a href="standings.php?season='.$value['id'].'"><img class="img-fluid pt-3" src="media/'.$value['logo'].'"></a>';
       }
     }
-    //$seasons .= '</optgroup>';
+    $view .= '<h1>Past series</h1>';
     $seasons = '<optgroup label="Past Series">';
     foreach ($leagueArray as $key => $value) {
       if ($value['active'] == 0) {
@@ -33,6 +32,7 @@ class ChampView {
           </div>
         </div>
       </form>
+    </div>
     </div>';
 
     echo $view;
