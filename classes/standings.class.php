@@ -120,7 +120,7 @@ class Standings {
 
       //If the championship has drop scores, find out how many, identify them and subtract them from the overall score
       $numdropscores = $this->season['drop_scores'];
-      $roundscompleted = 12;
+      $roundscompleted = 10;
       if ($numdropscores > 0) {
         $scores = array();
 
