@@ -15,6 +15,9 @@ $view = new UserView();
     }
   }
   ?>
+  <h1>Current series:</h1>
+  <a href="standings.php?season=7"><img src="media/BMW_LOGO.png" class="img-fluid"></a>
+  <a href="standings.php?season=6"><img src="media/NASCAR_LOGO.png" class="img-fluid"></a>
 </div>
 
 <?php
