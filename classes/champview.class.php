@@ -3,14 +3,16 @@
 class ChampView {
 
   public function leagueSelect($leagueArray) {
-    $seasons = '<optgroup label="Active Series">';
+    $view='<div class="jumbotron">';
+    //$seasons = '<optgroup label="Active Series">';
     foreach ($leagueArray as $key => $value) {
       if ($value['active'] == 1) {
-        $seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+        //$seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+        $view .= '<a href="standings.php?season='.$value['id'].'"><img class="img-fluid" style="max-width: 40%" src="media/'.$value['logo'].'"></a>';
       }
     }
-    $seasons .= '</optgroup>';
-    $seasons .= '<optgroup label="Past Series">';
+    //$seasons .= '</optgroup>';
+    $seasons = '<optgroup label="Past Series">';
     foreach ($leagueArray as $key => $value) {
       if ($value['active'] == 0) {
         $seasons .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
@@ -18,8 +20,8 @@ class ChampView {
     }
     $seasons .= '</optgroup>';
 
-    $view='<div class="jumbotron">
-      <form action="standings.php" enctype="multipart/form-data" method="get">
+    $view .=
+      '<form action="standings.php" enctype="multipart/form-data" method="get">
         <div class="row">
           <div class="col-sm">
             <select id="seasons" name="season" class="form-control">'.
@@ -34,6 +36,11 @@ class ChampView {
     </div>';
 
     echo $view;
+  }
+
+  public function buildStandings($s, $classes) {
+    require_once('templates/standings_head.php');
+    require_once('templates/standings_body.php');
   }
 
   public function buildChampTable($seasonInfo, $standings, $classes) {

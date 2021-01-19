@@ -11,6 +11,7 @@ class ChampCtrl {
     foreach ($leagueSeasons as $key => $value) {
       $leagueArray[$i]['id'] = $value['season_id'];
       $leagueArray[$i]['name'] = $value['league_name'].' '.$value['season_name'];
+      $leagueArray[$i]['logo'] = $value['season_logo'];
       $leagueArray[$i]['active'] = $value['active'];
       $i++;
     }

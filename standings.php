@@ -10,11 +10,19 @@ require "header.php";
     $leagueArray = ChampCtrl::buildLeaguesArray();
     $classes = ChampCtrl::getClasses();
 
-    $champView->leagueSelect($leagueArray);
+    if (!isset($_GET['season'])) {
+      $champView->leagueSelect($leagueArray);
+    }
 
     if(isset($_GET['season'])) {
+      $classes = ChampCtrl::getClasses();
 
-      $seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
+      $s = new Standings();
+      $s->loadStandings($_GET['season']);
+
+      $champView->buildStandings($s, $classes);
+
+      /*$seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
       $standings = $champCtrl->buildDriverStandings($_GET['season']);
 
       function standings_sort($a, $b) {
@@ -23,7 +31,7 @@ require "header.php";
       }
       usort($standings, "standings_sort");
 
-      $champView->buildChampTable($seasonInfo, $standings, $classes);
+      $champView->buildChampTable($seasonInfo, $standings, $classes);*/
     }
 
     ?>

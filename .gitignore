@@ -6,4 +6,3 @@ classes/dbc.class.php
 composer.lock
 mustache.php
 vendor
-templates

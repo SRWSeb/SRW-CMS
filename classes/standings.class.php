@@ -27,7 +27,6 @@ class Standings {
 
     //Populate Standings
     foreach ($s->getSeasonDriverInfo() as $key => $value) {
-
       //first if it is an active driver
       if($value['active'] == 1) {
         //Get basic info per driver
