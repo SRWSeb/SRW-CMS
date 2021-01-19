@@ -7,7 +7,9 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Class</th>
+        <?php if($s->season['classes'] == 1): ?>
+          <th scope="col">Class</th>
+        <?php endif; ?>        
         <th scope="col">Car</th>
         <?php
         foreach ($s->rounds as $key => $value) {

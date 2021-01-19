@@ -4,7 +4,9 @@
 
       <th scope="row"><?php echo $driver['position']; ?></th>
       <td><a href="driverinfo.php?id=<?php echo $driver['driverID']; ?>&season=<?php echo $s->season['id']; ?>"><?php echo $driver['name']; ?></td>
-      <td><?php echo $classes[$driver['class']]['class_name'] ?></td>
+      <?php if($s->season['classes'] == 1): ?>
+        <td><?php echo $classes[$driver['class']]['class_name'] ?></td>
+      <?php endif; ?>
       <td><?php echo $driver['car']; ?></td>
       <?php for($i = 0; $i < $s->season['rounds']; $i++): ?>
         <td><?php echo $driver['rounds'][$i]['pts']; ?></td>
@@ -17,7 +19,9 @@
     <tr>
       <th scope="row" style="background-color:#ff0000">DQ</th>
       <td><a href="driverinfo.php?id=<?php echo $dq['driverID']; ?>&season=<?php echo $s->season['id']; ?>"><?php echo $dq['name']; ?></td>
-      <td><?php echo $classes[$dq['class']]['class_name'] ?></td>
+      <?php if($s->season['classes'] == 1): ?>
+        <td><?php echo $classes[$dq['class']]['class_name'] ?></td>
+      <?php endif; ?>
       <td><?php echo $dq['car']; ?></td>
       <?php for($i = 0; $i < $s->season['rounds']; $i++): ?>
         <td><?php echo $dq['rounds'][$i]['pts']; ?></td>
