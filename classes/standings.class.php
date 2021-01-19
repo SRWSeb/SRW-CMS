@@ -119,8 +119,8 @@ class Standings {
       }
 
       //If the championship has drop scores, find out how many, identify them and subtract them from the overall score
-      $numdropscores = $this->season['drop_scores'];
-      $roundscompleted = 10;
+      /*$numdropscores = $this->season['drop_scores'];
+      $roundscompleted = 2;
       if ($numdropscores > 0) {
         $scores = array();
 
@@ -133,7 +133,7 @@ class Standings {
         for ($i=0; $i < $numdropscores; $i++) {
           $this->standings[$key]['total_pts'] -= $scores[$i];
         }
-      }
+      }*/
 
     }
 
