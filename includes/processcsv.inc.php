@@ -237,7 +237,12 @@ function getRoundID ($conn, $season_id, $track_id) {
   $result = mysqli_stmt_get_result($stmt);
   mysqli_stmt_close($stmt);
   $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return $rows[0]['id'];
+  foreach ($rows as $key => $value) {
+    if ($value['event_id'] == NULL) {
+      return $value['id'];
+    }
+  }
+  return NULL;
 }
 
 //Gets the minimum race distance a driver has to complete to get classified
