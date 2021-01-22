@@ -224,6 +224,25 @@ function getPointsArray ($conn, $iracing_season_id) {
   return str_getcsv($rows[0]['points_system']);
 }
 
+//Returns incident threshold and bonus points for season
+function getBonusPts ($conn, $seasonid) {
+  $sql = "SELECT * FROM seasons WHERE id = ?";
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) {
+    header("Location: ../entercsv.php?error=sqlerror");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "i", $seasonid);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+  $return['inc_threshold'] = $rows[0]['inc_threshold'];
+  $return['bonus_pts'] = $rows[0]['bonus_pts'];
+  return $return;
+}
+
 //Identifies the correct round by season ID and track and returns the round ID
 function getRoundID ($conn, $season_id, $track_id) {
   $sql = "SELECT * FROM rounds WHERE season_id = ? AND track_id = ?";
@@ -305,9 +324,7 @@ $points = getPointsArray($conn, $leagueInfo[3]);
 $rounds_id = getRoundID($conn, $seasonid, $trackid);
 $percent_rule = getPercentRule($conn, $seasonid);
 $min_distance = minDistance($input[0], $percent_rule);
-$season = new Season();
-$season->seasonbyID($seasonID);
-$seasoninfo = $season->getSeasonInfo();
+$bonuspts = getBonusPts($conn, $seasonid);
 
 //If trackid is 0 it means that track does not exist. So enter new track into DB.
 if($trackid == 0) {
@@ -362,8 +379,6 @@ foreach ($input as $key => $value) {
   $race_inc = $line[19];
   $point_value = $points[$race_pos-1];
   $inc_value = $line[19];
-  $inc_threshold = $seasoninfo['inc_threshold']
-  $bonus_pts = $seasoninfo['bonus_pts'];
   $inc_reason = "Incident points from race.";
 
   $sql = "INSERT INTO race_results (event_id, driver_id, car_id, carclass_id, start_pos, race_pos, laps_comp, race_fastest_lap, race_fastest_lap_num, race_average_lap, race_inc) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -411,14 +426,14 @@ foreach ($input as $key => $value) {
       mysqli_stmt_close($stmt);
       exit();
     }
-    if ($inc_value <= $inc_threshold) {
+    if ($inc_value <= $bonuspts['inc_threshold']) {
       $sql = "INSERT INTO champ_pts_transactions (driver_id, rounds_id, pts_amount) VALUES (?,?,?)";
       $stmt = mysqli_stmt_init($conn);
       if(!mysqli_stmt_prepare($stmt, $sql)) {
         header("Location: ../entercsv.php?error=sqlerror");
         exit();
       }
-      mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, $bonus_pts);
+      mysqli_stmt_bind_param($stmt, "iii", $driver_id, $rounds_id, $bonuspts['bonus_pts']);
       if(mysqli_stmt_execute($stmt)) {
         mysqli_stmt_close($stmt);
       } else {
