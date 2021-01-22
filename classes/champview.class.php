@@ -39,10 +39,15 @@ class ChampView {
   }
 
   public function buildStandings($s, $classes) {
-    require_once('templates/standings_head.php');
+    if($s->season['races_per_round'] > 1) {
+      require_once('templates/standings_doublehead.php');
+    } else {
+      require_once('templates/standings_head.php');
+    }
     require_once('templates/standings_body.php');
   }
 
+  /*
   public function buildChampTable($seasonInfo, $standings, $classes) {
     $roundsView = "";
     $standingsView = "";
@@ -134,6 +139,7 @@ class ChampView {
 
     echo $view;
   }
+  */
 
   public function buildDriverSite($transactions, $name) {
     $tablehead = '<div class="jumbotron">

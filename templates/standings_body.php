@@ -8,7 +8,7 @@
         <td><?php echo $classes[$driver['class']]['class_name'] ?></td>
       <?php endif; ?>
       <td><?php echo $driver['car']; ?></td>
-      <?php for($i = 0; $i < $s->season['rounds']; $i++): ?>
+      <?php for($i = 0; $i < $s->season['rounds']*$s->season['races_per_round']; $i++): ?>
         <td><?php echo $driver['rounds'][$i]['pts']; ?></td>
       <?php endfor; ?>
       <td style="background-color:<?php echo $driver['inc_color']; ?>"><?php echo $driver['total_inc']; ?></td>
@@ -23,7 +23,7 @@
         <td><?php echo $classes[$dq['class']]['class_name'] ?></td>
       <?php endif; ?>
       <td><?php echo $dq['car']; ?></td>
-      <?php for($i = 0; $i < $s->season['rounds']; $i++): ?>
+      <?php for($i = 0; $i < $s->season['rounds']*$s->season['races_per_round']; $i++): ?>
         <td><?php echo $dq['rounds'][$i]['pts']; ?></td>
       <?php endfor; ?>
       <td style="background-color:<?php echo $dq['inc_color']; ?>"><?php echo $dq['total_inc']; ?></td>

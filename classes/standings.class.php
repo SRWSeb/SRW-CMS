@@ -44,7 +44,7 @@ class Standings {
         $inc_transactions = $t->getIncTransactionsForSeason($seasonID, $this->standings[$key]['driverID']);
 
         //build array for each round
-        for ($i=0; $i < $this->season['rounds'] ; $i++) {
+        for ($i=0; $i < $this->season['rounds']*$this->season['races_per_round']; $i++) {
           $round = $i;
           $this->standings[$key]['rounds'][$round] = array();
           $this->standings[$key]['rounds'][$round]['pts'] = 0;
@@ -77,6 +77,14 @@ class Standings {
           $this->standings[$key]['inc_color'] = 'gray';
         }
 
+        //If there is an incident penalty, subtract inc from total points
+        if ($this->season['inc_penalty']) {
+          $this->standings[$key]['total_pts'] -= $this->standings[$key]['total_inc'];
+          if ($this->standings[$key]['total_pts'] < 0) {
+            $this->standings[$key]['total_pts'] = 0;
+          }
+        }
+
       //then if it is an disqualied driver
       } else if($value['active'] == 2) {
         //Get basic info per driver
@@ -94,7 +102,7 @@ class Standings {
         $inc_transactions = $t->getIncTransactionsForSeason($seasonID, $this->disqualified[$key]['driverID']);
 
         //build array for each round
-        for ($i=0; $i < $this->season['rounds'] ; $i++) {
+        for ($i=0; $i < $this->season['rounds']*$this->season['races_per_round']; $i++) {
           $round = $i;
           $this->disqualified[$key]['rounds'][$round] = array();
           $this->disqualified[$key]['rounds'][$round]['pts'] = 0;
