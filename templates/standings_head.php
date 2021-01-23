@@ -9,11 +9,11 @@
         <th scope="col">Name</th>
         <?php if($s->season['classes'] == 1): ?>
           <th scope="col">Class</th>
-        <?php endif; ?>        
+        <?php endif; ?>
         <th scope="col">Car</th>
         <?php
         foreach ($s->rounds as $key => $value) {
-          echo '<th scope="col">'.$value.'</th>';
+          echo '<th scope="col" class="text-nowrap">'.$value.'</th>';
         }
          ?>
         <th scope="col">Incident Points</th>
