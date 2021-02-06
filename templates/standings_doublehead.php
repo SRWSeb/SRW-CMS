@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <?php if($s->season['season_logo'] != NULL): ?>
-    <img src="media/<?php echo $s->season['season_logo']; ?>" class="img-fluid">
+    <img src="media/<?=$s->season['season_logo']?>" class="img-fluid">
   <?php endif; ?>
   <table class="table">
     <thead class="thead-dark">
@@ -22,7 +22,7 @@
       <tr>
         <?php foreach ($s->rounds as $key => $value): ?>
           <?php for ($i = 1; $i <= $s->season['races_per_round']; $i++): ?>
-            <th scope="col" class="text-nowrap">Race <?php echo $i; ?></th>
+            <th scope="col" class="text-nowrap">Race <?=$i?></th>
           <?php endfor; ?>
         <?php endforeach; ?>
       </tr>

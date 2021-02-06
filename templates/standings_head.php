@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <?php if($s->season['season_logo'] != NULL): ?>
-    <img src="media/<?php echo $s->season['season_logo']; ?>" class="img-fluid">
+    <img src="media/<?=$s->season['season_logo']?>" class="img-fluid">
   <?php endif; ?>
   <table class="table">
     <thead class="thead-dark">
