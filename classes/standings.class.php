@@ -18,7 +18,7 @@ class Standings {
 
     //Populate Season Info
     $this->season = $s->getSeasonInfo();
-
+    
     //Populate Rounds
     for ($i=1; $i <= $this->season['rounds']; $i++) {
       $round = 'Round '.$i;
