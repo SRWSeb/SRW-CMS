@@ -22,20 +22,10 @@ require "header.php";
         $s->loadStandings($_GET['season'], $_GET['scope']);
       else
         $s->loadStandings($_GET['season']);
-      
+
 
       $champView->buildStandings($s, $classes);
 
-      /*$seasonInfo = $champCtrl->getSeasonInfo($_GET['season']);
-      $standings = $champCtrl->buildDriverStandings($_GET['season']);
-
-      function standings_sort($a, $b) {
-        if($a["total_pts"] == $b["total_pts"]) return 0;
-        return ($a["total_pts"] < $b["total_pts"])?1:-1;
-      }
-      usort($standings, "standings_sort");
-
-      $champView->buildChampTable($seasonInfo, $standings, $classes);*/
     }
 
     ?>
