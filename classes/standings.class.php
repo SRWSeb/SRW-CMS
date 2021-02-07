@@ -11,7 +11,7 @@ class Standings {
     return ($a["total_pts"] < $b["total_pts"])?1:-1;
   }
 
-  public function loadStandings($seasonID) {
+  public function loadStandings($seasonID, $scope = 0) {
     //Load relevant Season
     $s = new Season();
     $s->seasonbyID($seasonID);
@@ -27,6 +27,9 @@ class Standings {
 
     //Populate Standings
     foreach ($s->getSeasonDriverInfo() as $key => $value) {
+      //If scope is 0, all classes are wanted. If scope is not 0, dismiss all classes that are not wanted.
+      if($scope != 0 && $scope != $value['driver_class'])
+        continue;
       //first if it is an active driver
       if($value['active'] == 1) {
         //Get basic info per driver

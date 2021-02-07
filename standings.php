@@ -18,7 +18,11 @@ require "header.php";
       $classes = ChampCtrl::getClasses();
 
       $s = new Standings();
-      $s->loadStandings($_GET['season']);
+      if(isset($_GET['scope']))
+        $s->loadStandings($_GET['season'], $_GET['scope']);
+      else
+        $s->loadStandings($_GET['season']);
+      
 
       $champView->buildStandings($s, $classes);
 
