@@ -13,6 +13,7 @@
       if (isset($_SESSION['userlevel']) && $_SESSION['userlevel'] == 1):?>
           <a class="nav-item nav-link" href="entercsv.php">Add CSV</a>
           <a class="nav-item nav-link" href="driveradmin.php">Driver Admin</a>
+          <a class="nav-item nav-link" href="teamadmin.php">Team Admin</a>
           <a class="nav-item nav-link" href="protestenter.php">Enter Protest</a>
       <?php endif; ?>
 
