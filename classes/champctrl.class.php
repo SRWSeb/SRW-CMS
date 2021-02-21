@@ -28,6 +28,23 @@ class ChampCtrl {
     return $season->getClasses();
   }
 
+  public static function roundsCompleted($seasonID) {
+    $season = new Season();
+    $season->seasonbyID($seasonID);
+    $rounds = $season->getSeasonRounds();
+    $seasoninfo = $season->getSeasonInfo();
+    $count = 0;
+    
+    foreach ($rounds as $key => $round) {
+      if($round['event_id'])
+        $count++;
+    }
+
+    $count = $count / $seasoninfo['races_per_round'];
+
+    return $count;
+  }
+
   public function getSeasonInfo($seasonID) {
     $season = new Season();
     $season->seasonbyID($seasonID);
