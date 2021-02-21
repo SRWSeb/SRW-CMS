@@ -11,7 +11,7 @@
       <form action="teamadmin.php" enctype="multipart/form-data" method="get">
         <div class="row">
           <input type="text" class="form-control col-10" id="driver_name" name="adddriver">
-          <input type="submit" value="Add Driver" class="btn btn-primary col">
+          <input type="submit" value="Add Driver" class="btn btn-dark col">
         </div>
       </form>
     </ul>
