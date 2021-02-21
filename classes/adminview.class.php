@@ -137,12 +137,16 @@ class AdminView {
     echo $view;
   }
 
-  public function addTeam() {
-    require_once('templates/addteam.php');
+  public function teamAdd() {
+    require_once('templates/teamadd.php');
   }
 
-  public function showTeams($teams) {
-    require_once('templates/showteams.php');
+  public function teamShowAll($teams) {
+    require_once('templates/teamshowall.php');
+  }
+
+  public function teamEdit($teaminfo) {
+    require_once('templates/teamedit.php');
   }
 
 }

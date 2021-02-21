@@ -9,6 +9,11 @@ require "header.php";
         $av = new AdminView();
         $t = new TeamCtrl();
 
+        if(isset($_GET['edit'])) {
+          $teaminfo = $t->getTeamInfo($_GET['edit']);
+          $av->teamEdit($teaminfo);
+        }
+
         if(isset($_GET['add'])) {
           if(!$t->addTeam($_GET['add'])) {
             echo "Team already exists<br>";
@@ -17,8 +22,8 @@ require "header.php";
 
         $allteams = TeamCtrl::getAllTeams();
 
-        $av->addTeam();
-        $av->showTeams($allteams);
+        $av->teamAdd();
+        $av->teamShowAll($allteams);
       ?>
    </div>
   </div>
