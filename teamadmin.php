@@ -10,7 +10,8 @@ require "header.php";
         $t = new TeamCtrl();
 
         if(isset($_GET['edit'])) {
-          $teaminfo = $t->getTeamInfo($_GET['edit']);
+          //$teaminfo = $t->getTeamInfo($_GET['edit']);
+          $teaminfo = Null;
           $av->teamEdit($teaminfo);
         }
 
@@ -22,8 +23,8 @@ require "header.php";
 
         $allteams = TeamCtrl::getAllTeams();
 
-        $av->teamAdd();
         $av->teamShowAll($allteams);
+        $av->teamAdd();
       ?>
    </div>
   </div>
