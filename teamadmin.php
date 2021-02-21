@@ -10,8 +10,7 @@ require "header.php";
         $t = new TeamCtrl();
 
         if(isset($_GET['edit'])) {
-          //$teaminfo = $t->getTeamInfo($_GET['edit']);
-          $teaminfo = Null;
+          $teaminfo = $t->getTeamInfo($_GET['edit']);
           $av->teamEdit($teaminfo);
         }
 

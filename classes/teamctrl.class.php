@@ -21,4 +21,9 @@ class TeamCtrl {
     }
   }
 
+  public function getTeamInfo($teamID) {
+    $this->team->getTeambyID($teamID);
+    var_export($this->team);
+  }
+
 }

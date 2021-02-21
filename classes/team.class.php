@@ -56,6 +56,15 @@ class Team extends Dbc {
     return 1;
   }
 
+  public function getassignedDriver($teamID) {
+    $sql = 'SELECT * FROM team_driver WHERE team_id = ?';
+    $this->connect();
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$team_id]);
+
+    return $stmt->fetchAll();
+  }
+
   public function assignDriverSeason($team_id, $driver_id, $season_id) {
     $sql = 'INSERT INTO team_driver_season (team_id, driver_id, season_id) VALUES (?, ?, ?)';
     $this->connect();
