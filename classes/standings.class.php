@@ -70,6 +70,7 @@ class Standings {
           $round = $i;
           $this->standings[$key]['rounds'][$round] = array();
           $this->standings[$key]['rounds'][$round]['pts'] = 0;
+          $this->standings[$key]['rounds'][$round]['inc'] = 0;
           $this->standings[$key]['rounds'][$round]['text-color'] = 'black';
         }
 
@@ -83,6 +84,9 @@ class Standings {
 
         //Add up all inc and put them in Standings
         foreach ($inc_transactions as $inc_key => $inc_value) {
+          $round = $inc_value['round_num'] - 1;
+
+          $this->standings[$key]['rounds'][$round]['inc'] += $inc_value['inc_amount'];
           $this->standings[$key]['total_inc'] += $inc_value['inc_amount'];
         }
 
@@ -157,6 +161,7 @@ class Standings {
         for ($i=0; $i < $roundscompleted; $i++) {
           $scores[$i]['rnd'] = $i;
           $scores[$i]['pts'] = $this->standings[$key]['rounds'][$i]['pts'];
+          $scores[$i]['inc'] = $this->standings[$key]['rounds'][$i]['inc'];
         }
 
         $dropresults = $this->dropscores($scores, $numdropscores);
@@ -164,6 +169,7 @@ class Standings {
         foreach ($dropresults as $result) {
           $this->standings[$key]['rounds'][$result['rnd']]['text-color'] = "#949494";
           $this->standings[$key]['total_pts'] -= $result['pts'];
+          $this->standings[$key]['total_inc'] -= $result['inc'];
         }
 
       }
