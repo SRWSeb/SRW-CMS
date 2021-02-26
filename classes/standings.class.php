@@ -11,6 +11,25 @@ class Standings {
     return ($a["total_pts"] < $b["total_pts"])?1:-1;
   }
 
+  private function dropscores($scores, $num) {
+    $results = array();
+    $temp = ['rnd' => 0, 'pts' => 0];
+    $tempkey = 0;
+
+    for ($i=0; $i < $num; $i++) {
+      $temp['pts'] = 10000000;
+      foreach ($scores as $key => $score) {
+        if($score['pts'] < $temp['pts']) {
+          $temp = $score;
+          $tempkey = $key;
+        }
+      }
+      $results[$i] = $temp;
+      unset($scores[$tempkey]);
+    }
+    return $results;
+  }
+
   public function loadStandings($seasonID, $scope = 0) {
     //Load relevant Season
     $s = new Season();
@@ -18,7 +37,7 @@ class Standings {
 
     //Populate Season Info
     $this->season = $s->getSeasonInfo();
-    
+
     //Populate Rounds
     for ($i=1; $i <= $this->season['rounds']; $i++) {
       $round = 'Round '.$i;
@@ -130,21 +149,24 @@ class Standings {
       }
 
       //If the championship has drop scores, find out how many, identify them and subtract them from the overall score
-      /*$numdropscores = $this->season['drop_scores'];
-      $roundscompleted = 2;
+      $numdropscores = $this->season['drop_scores'];
+      $roundscompleted = ChampCtrl::roundsCompleted($seasonID);
+      $scores =  array();
+
       if ($numdropscores > 0) {
-        $scores = array();
-
         for ($i=0; $i < $roundscompleted; $i++) {
-          $scores[$i] = $this->standings[$key]['rounds'][$i]['pts'];
+          $scores[$i]['rnd'] = $i;
+          $scores[$i]['pts'] = $this->standings[$key]['rounds'][$i]['pts'];
         }
 
-        sort($scores, SORT_NUMERIC);
+        $dropresults = $this->dropscores($scores, $numdropscores);
 
-        for ($i=0; $i < $numdropscores; $i++) {
-          $this->standings[$key]['total_pts'] -= $scores[$i];
+        foreach ($dropresults as $result) {
+          $this->standings[$key]['rounds'][$result['rnd']]['text-color'] = "#949494";
+          $this->standings[$key]['total_pts'] -= $result['pts'];
         }
-      }*/
+
+      }
 
     }
 

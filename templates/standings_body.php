@@ -9,7 +9,7 @@
       <?php endif; ?>
       <td><?=$driver['car']?></td>
       <?php for($i = 0; $i < $s->season['rounds']*$s->season['races_per_round']; $i++): ?>
-        <td><?=$driver['rounds'][$i]['pts']?></td>
+        <td style="color:<?=$driver['rounds'][$i]['text-color']?>"><?=$driver['rounds'][$i]['pts']?></td>
       <?php endfor; ?>
       <td style="background-color:<?=$driver['inc_color']?>"><?=$driver['total_inc']?></td>
       <td><?=$driver['total_pts']?></td>
