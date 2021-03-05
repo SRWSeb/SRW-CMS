@@ -90,27 +90,6 @@ class Standings {
           $this->standings[$key]['total_inc'] += $inc_value['inc_amount'];
         }
 
-        //Check Inc limit, calculate threshold and set inc background color.
-        $inclimit = $this->season['inc_limit'];
-        if($inclimit > 0) {
-          if($this->standings[$key]['total_inc'] < $inclimit*.7)
-            $this->standings[$key]['inc_color'] = '#33cc33';
-          else if ($this->standings[$key]['total_inc'] >= $inclimit*.7 && $this->standings[$key]['total_inc'] <= $inclimit)
-              $this->standings[$key]['inc_color'] = '#ff9900';
-          else if ($this->standings[$key]['total_inc'] > $inclimit)
-            $this->standings[$key]['inc_color'] = '#ff0000';
-        } else {
-          $this->standings[$key]['inc_color'] = 'gray';
-        }
-
-        //If there is an incident penalty, subtract inc from total points
-        if ($this->season['inc_penalty']) {
-          $this->standings[$key]['total_pts'] -= $this->standings[$key]['total_inc'];
-          if ($this->standings[$key]['total_pts'] < 0) {
-            $this->standings[$key]['total_pts'] = 0;
-          }
-        }
-
       //then if it is an disqualied driver
       } else if($value['active'] == 2) {
         //Get basic info per driver
@@ -154,24 +133,60 @@ class Standings {
 
       //If the championship has drop scores, find out how many, identify them and subtract them from the overall score
       $numdropscores = $this->season['drop_scores'];
+      $racesperround = $this->season['races_per_round'];
       $roundscompleted = ChampCtrl::roundsCompleted($seasonID);
       $scores =  array();
 
       if ($numdropscores > 0) {
-        for ($i=0; $i < $roundscompleted; $i++) {
-          $scores[$i]['rnd'] = $i;
-          $scores[$i]['pts'] = $this->standings[$key]['rounds'][$i]['pts'];
-          $scores[$i]['inc'] = $this->standings[$key]['rounds'][$i]['inc'];
+        if($racesperround == 1) {
+          for ($i=0; $i < $roundscompleted; $i++) {
+            $scores[$i]['rnd'] = $i;
+            $scores[$i]['pts'] = $this->standings[$key]['rounds'][$i]['pts'];
+            $scores[$i]['inc'] = $this->standings[$key]['rounds'][$i]['inc'];
+          }
+        } elseif ($racesperround == 2) {
+          $roundscompleted = $roundscompleted * 2;
+          for ($i=0; $i < $roundscompleted; $i += 2) {
+            $scores[$i]['rnd'] = $i;
+            $scores[$i]['pts'] = $this->standings[$key]['rounds'][$i]['pts'];
+            $scores[$i]['pts'] += $this->standings[$key]['rounds'][$i+1]['pts'];
+            $scores[$i]['inc'] = $this->standings[$key]['rounds'][$i]['inc'];
+            $scores[$i]['inc'] += $this->standings[$key]['rounds'][$i+1]['inc'];
+          }
         }
 
         $dropresults = $this->dropscores($scores, $numdropscores);
 
         foreach ($dropresults as $result) {
           $this->standings[$key]['rounds'][$result['rnd']]['text-color'] = "#949494";
+          if ($racesperround == 2) {
+            $this->standings[$key]['rounds'][$result['rnd']+1]['text-color'] = "#949494";
+          }
           $this->standings[$key]['total_pts'] -= $result['pts'];
           $this->standings[$key]['total_inc'] -= $result['inc'];
         }
 
+      }
+
+      //Check Inc limit, calculate threshold and set inc background color.
+      $inclimit = $this->season['inc_limit'];
+      if($inclimit > 0) {
+        if($this->standings[$key]['total_inc'] < $inclimit*.7)
+          $this->standings[$key]['inc_color'] = '#33cc33';
+        else if ($this->standings[$key]['total_inc'] >= $inclimit*.7 && $this->standings[$key]['total_inc'] <= $inclimit)
+            $this->standings[$key]['inc_color'] = '#ff9900';
+        else if ($this->standings[$key]['total_inc'] > $inclimit)
+          $this->standings[$key]['inc_color'] = '#ff0000';
+      } else {
+        $this->standings[$key]['inc_color'] = 'gray';
+      }
+
+      //If there is an incident penalty, subtract inc from total points
+      if ($this->season['inc_penalty']) {
+        $this->standings[$key]['total_pts'] -= $this->standings[$key]['total_inc'];
+        if ($this->standings[$key]['total_pts'] < 0) {
+          $this->standings[$key]['total_pts'] = 0;
+        }
       }
 
     }
