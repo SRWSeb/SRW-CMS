@@ -49,8 +49,11 @@ class Standings {
       //If scope is 0, all classes are wanted. If scope is not 0, dismiss all classes that are not wanted.
       if($scope != 0 && $scope != $value['driver_class'])
         continue;
+
+      //If driver is set to 0, he is inactive and can be skipped.
       if($value['active'] == 0)
         continue;
+        
       //first if it is an active driver
       if($value['active'] == 1) {
         //Get basic info per driver

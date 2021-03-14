@@ -21,30 +21,38 @@ class Team extends Dbc {
     return $stmt->fetchAll();
   }
 
-  public function getTeambyName($team_name) {
+  public function loadTeambyName($team_name) {
     $sql = 'SELECT * FROM teams WHERE team_name = ?';
     $this->connect();
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$team_name]);
 
-    $this->team = $stmt->fetchAll();
+    $this->team = $stmt->fetchAll()[0];
     if(empty($this->team)) {
       return 0;
     }
     return 1;
   }
 
-  public function getTeambyID($team_id) {
+  public function loadTeambyID($team_id) {
     $sql = 'SELECT * FROM teams WHERE id = ?';
     $this->connect();
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$team_id]);
 
-    $this->team = $stmt->fetchAll();
+    $this->team = $stmt->fetchAll()[0];
     if(empty($this->team)) {
       return 0;
     }
     return 1;
+  }
+
+  public function getTeamName() {    
+    return $this->team['team_name'];
+  }
+
+  public function getTeamCreated() {
+    return $this->team['created'];
   }
 
   public function assignDriver($team_id, $driver_id) {
@@ -57,10 +65,12 @@ class Team extends Dbc {
   }
 
   public function getassignedDriver($teamID) {
-    $sql = 'SELECT * FROM team_driver WHERE team_id = ?';
+    $sql = 'SELECT team_driver.*, drivers.* FROM team_driver
+    JOIN drivers ON team_driver.driver_id = drivers.id
+    WHERE team_id = ?';
     $this->connect();
     $stmt = $this->conn->prepare($sql);
-    $stmt->execute([$team_id]);
+    $stmt->execute([$teamID]);
 
     return $stmt->fetchAll();
   }

@@ -13,7 +13,7 @@ class TeamCtrl {
   }
 
   public function addTeam($team_name) {
-    if(!$this->team->getTeambyName($team_name)) {
+    if(!$this->team->loadTeambyName($team_name)) {
       $this->team->createTeam($team_name);
       return 1;
     } else {
@@ -22,8 +22,12 @@ class TeamCtrl {
   }
 
   public function getTeamInfo($teamID) {
-    $this->team->getTeambyID($teamID);
-    var_export($this->team);
+    $this->team->loadTeambyID($teamID);
+    $teaminfo['team_name'] = $this->team->getTeamName();
+    $teaminfo['created'] = $this->team->getTeamCreated();
+    $teaminfo['drivers'] = $this->team->getassignedDriver($teamID);
+    
+    return $teaminfo;
   }
 
 }
