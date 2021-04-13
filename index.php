@@ -18,7 +18,7 @@ $view = new UserView();
   <div class="jumbotron text-center">
   <h1>Current series</h1>
   <a href="standings.php?season=7"><img src="media/BMW_LOGO.png" class="img-fluid pt-3"></a>
-  <a href="standings.php?season=6"><img src="media/NASCAR_LOGO.png" class="img-fluid pt-3"></a>
+  <a href="standings.php?season=8"><img src="media/NASCAR_TRUCK_LOGO.png" class="img-fluid pt-3"></a>
   </div>
 </div>
 
